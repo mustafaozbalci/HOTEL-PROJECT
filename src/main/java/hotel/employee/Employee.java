@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "employee", schema = "hotel")
 @Data
@@ -15,7 +18,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id")
-    private Long employeeId;
+    private Integer employeeId;
 
     @Column(name = "username", unique = true)
     private String username;
@@ -23,11 +26,19 @@ public class Employee {
     @Column(name = "password")
     private String password;
 
-    // You might want to implement a role-based access control system
-    // For simplicity, I'm using a single field here, but you can extend this based on your needs
     @Column(name = "role")
-    private String role; // e.g., "ADMIN", "MANAGER", "EMPLOYEE"
+    private String role; // e.g., "ADMIN", "RECEPTION", "SPA"
+    @Column(name = "inbox")
+    private String inbox;
 
-    // Add any other necessary fields or relationships
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<Notification> notifications;
+
+    public void addNotification(Notification notification) {
+        if (notifications == null) {
+            notifications = new ArrayList<>();
+        }
+        notifications.add(notification);
+    }
 
 }

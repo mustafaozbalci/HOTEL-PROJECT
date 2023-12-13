@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        .center {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fbfbfb;
+            height: 100vh;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .request-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .request-option {
+            width: 45%;
+            margin: 10px;
+            padding: 15px;
+            border: 1px solid #b7baf5;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .request-option:hover {
+            background-color: #ddd;
+        }
+
+        .hotel-info {
+            max-width: 600px;
+            padding: 20px;
+            background: rgba(13, 13, 13, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #spaForm {
+            display: none;
+            max-width: 400px;
+            margin: 20px auto;
+            background: #080808;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(66, 66, 66, 0.5);
+        }
+
+        #spaAmount {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #extrapersondifference{
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+    <title>Hotel Page</title>
+</head>
+<body>
+
+<video class="video-background" autoplay muted loop>
+    <source src="videos/HotelVideos3.mp4" type="video/mp4">
+</video>
+
+<div class="center">
+    <h2>Requests</h2>
+
+    <div class="request-options">
+        <div class="request-option" onclick="selectRequest('extraPerson')">Extra Person Request</div>
+        <div class="request-option" onclick="showSpaForm()">Spa Request</div>
+        <div class="request-option" onclick="selectRequest('foodAndDrink')">Food And Drink Request</div>
+        <div class="request-option" onclick="selectRequest('extendingAccommodation')">Extending Accommodation Request</div>
+    </div>
+
+    <div class="hotel-info">
+        <h2>Hotel Accommodation Information</h2>
+        <p>Welcome to Marmara Hotel.At the hotel, your guests can stay in your room by making an extra person request by paying the extra person difference according to the number of people in your reservation, but the room capacity must meet this.You can also make a spa appointment, order extra food and beverages, and request an extension to your reservation here.</p>
+    </div>
+
+    <div id="spaAmount">Spa Amount is 40€</div>
+    <div id="extrapersondifference">Extra Person Difference Amount is 30€</div>
+
+    <div id="spaForm">
+        <label for="spaDate">Select Date:</label>
+        <input type="date" id="spaDate" required>
+
+        <label for="spaTime">Select Time:</label>
+        <input type="time" id="spaTime" required>
+
+        <button onclick="submitSpaRequest()">Submit Spa Request</button>
+    </div>
+</div>
+
+<script>
+    function selectRequest(requestType) {
+        alert('Selected Request: ' + requestType);
+        // Burada istenen talebe göre başka bir işlem yapabilirsiniz.
+    }
+
+    function showSpaForm() {
+        document.getElementById('spaForm').style.display = 'block';
+    }
+
+    function submitSpaRequest() {
+        var spaDate = document.getElementById('spaDate').value;
+        var spaTime = document.getElementById('spaTime').value;
+        var spaAmountDisplay = document.getElementById('spaAmount');
+        var extraPersonDifferences= document.getElementById('extrapersondifference');
+
+        // Burada tarih ve saat ile ilgili işlemleri yapabilirsiniz.
+
+        // Örnek olarak sabit bir spa ücreti ekledim.
+        var spaAmount = 40;
+        var extraPersonDifference=30;
+
+        spaAmountDisplay.textContent = 'Spa Amount is ' + spaAmount + '€';
+        extraPersonDifferences.textContent='Extra Person Difference is'+ extraPersonDifference+ '€';
+    }
+</script>
+</body>
+</html>
