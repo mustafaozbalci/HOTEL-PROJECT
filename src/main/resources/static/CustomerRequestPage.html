@@ -121,8 +121,55 @@
 
 <script>
     function selectRequest(requestType) {
-        alert('Selected Request: ' + requestType);
-        // Burada istenen talebe göre başka bir işlem yapabilirsiniz.
+        if (requestType === 'extraPerson') {
+            sendNotificationRequest(requestType);
+        } else {
+            alert('Selected Request: ' + requestType);
+            // Perform other actions based on different requests if needed
+        }
+    }
+
+    function sendNotificationRequest(requestType) {
+        var xhr = new XMLHttpRequest();
+        var url = 'http://localhost:8080/process-request/notifications'; // Update the URL with your server endpoint
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        var content = 'Extra Person Request - ' + new Date().toLocaleString();
+
+        var requestData = {
+            requestType: requestType,
+            content: content
+        };
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Notification sent successfully!');
+            }
+        };
+
+        xhr.send(JSON.stringify(requestData));
+
+        // Simulate server-side behavior locally
+        sendNotificationToServer(requestData);
+    }
+
+    function sendNotificationToServer(requestData) {
+        // Simulate server-side behavior locally
+        var xhr = new XMLHttpRequest();
+        var url = 'http://localhost:8080/simulate-notification'; // Update with your server endpoint for simulation
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Notification simulated and saved to the local database!');
+            }
+        };
+
+        xhr.send(JSON.stringify(requestData));
     }
 
     function showSpaForm() {

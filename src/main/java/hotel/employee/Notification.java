@@ -1,6 +1,5 @@
 package hotel.employee;
 
-import hotel.customer.Customer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,17 +17,8 @@ public class Notification {
     @Column(name = "notification_id")
     private Long notificationId;
 
-    @Column(name = "message")
     private String message;
+    private String status; // "ACTIVE" veya "PASSIVE" olabilir
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
-
-    // Constructors, getters, and setters
+    // Diğer gerekli alanları ekleyebilirsiniz
 }
-

@@ -1,14 +1,12 @@
 package hotel.customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import hotel.employee.Notification;
 import hotel.reservation.Reservation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +28,6 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Reservation> reservations;
-
 
     @Column(name = "customer_surname")
     private String customerSurname;
@@ -61,14 +58,4 @@ public class Customer {
 
     @Column(name = "phone_number")
     private String phoneNumber;
-
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Notification> notifications;
-
-    public void addNotification(Notification notification) {
-        if (notifications == null) {
-            notifications = new ArrayList<>();
-        }
-        notifications.add(notification);
-    }
 }

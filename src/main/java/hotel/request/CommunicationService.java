@@ -1,7 +1,9 @@
+// CommunicationService.java
 package hotel.request;
 
-import hotel.employee.Employee;
 import hotel.employee.Notification;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,55 +12,27 @@ import java.util.List;
 @Service
 public class CommunicationService {
 
+    @Autowired
+    private NotificationRepository notificationRepository;
+
+    @Getter
     private List<Notification> notifications = new ArrayList<>();
 
-    public List<Notification> getNotifications() {
-        return notifications;
-    }
+    private final String NOTIFICATION_API_URL = "http://localhost:8080/process-request/notifications";
 
-    public void processCustomerRequest(CustomerRequest request) {
-        // Determine the request type and take appropriate actions
-        if ("RESERVATION".equals(request.getRequestType())) {
-            // Handle reservation request
-            sendReservationNotification(request.getContent());
-        }
-        // Add other conditions for different request types if needed
-    }
+    public void sendNotificationFromButtonClick(String requestType) {
+        // Button click method
+        String content = "Button Clicked - " + requestType;
 
-    private void sendReservationNotification(String reservationDetails) {
-        // Simulate sending a reservation notification to an employee
-        Employee employee = getEmployeeToNotify(); // You should implement a method to determine the employee
-        sendNotificationToEmployee(employee, "New Reservation: " + reservationDetails);
-    }
-
-    private Employee getEmployeeToNotify() {
-        // Implement logic to determine the employee to notify
-        // For simplicity, you can return a predefined employee for now
-        return new Employee(/* employee details */);
-    }
-
-    private void sendNotificationToEmployee(Employee employee, String message) {
+        // Simulate server-side behavior locally
         Notification notification = new Notification();
-        notification.setMessage(message);
-        notification.setEmployee(employee);
+        notification.setMessage(content);
+        notification.setStatus("ACTIVE");
+        notificationRepository.save(notification);
 
-        notifications.add(notification); // Add the notification to the list
-
-        // Perform additional operations such as saving to the database
-
-        // Send the notification, e.g., by email or other means
+        // Optional: Add the notification to the list
+        notifications.add(notification);
     }
 
-    public void sendSpaNotification(String content) {
-        // Spa talebi için özel bir işlem yapabilirsiniz
-        Employee employee = getEmployeeToNotify(); // You should implement a method to determine the employee
-        sendNotificationToEmployee(employee, "New Spa Reservation: " + content);
-    }
-
-    public void sendExtraPersonNotification(String content) {
-        // Extra person talebi için özel bir işlem yapabilirsiniz
-        Employee employee = getEmployeeToNotify(); // You should implement a method to determine the employee
-        sendNotificationToEmployee(employee, "New Extra Person Request: " + content);
-    }
-
+    // Diğer metotlar
 }
