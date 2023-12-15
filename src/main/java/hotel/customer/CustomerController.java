@@ -1,6 +1,5 @@
 package hotel.customer;
 
-import hotel.request.CommunicationService;
 import hotel.reservation.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +14,7 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
-    @Autowired
-    private CommunicationService communicationService;
+
 
     @GetMapping("/{customerId}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long customerId) {

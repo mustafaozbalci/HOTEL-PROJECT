@@ -1,4 +1,3 @@
-// NotificationController.java
 package hotel.request;
 
 import hotel.employee.Notification;
@@ -19,15 +18,28 @@ public class NotificationController {
 
     @PostMapping("/notifications")
     public ResponseEntity<String> processNotificationRequest(@RequestBody CustomerRequest request) {
-        // Burada gelen isteği kullanarak bildirim oluşturabilir ve veritabanına kaydedebilirsiniz
+        return processRequest(request, "Notification processed successfully");
+    }
+
+    @PostMapping("/spa-requests")
+    public ResponseEntity<String> processSpaRequest(@RequestBody CustomerRequest request) {
+        return processRequest(request, "Spa Request processed successfully");
+    }
+
+    @PostMapping("/extend-accommodation-requests")
+    public ResponseEntity<String> processExtendAccommodationRequest(@RequestBody CustomerRequest request) {
+        return processRequest(request, "Extend Accommodation Request processed successfully");
+    }
+
+    private ResponseEntity<String> processRequest(CustomerRequest request, String successMessage) {
         String content = request.getContent();
 
-        // Simüle edilmiş bildirim oluşturma ve kaydetme işlemi
+        // Simulate request processing and save to the database
         Notification notification = new Notification();
-        notification.setMessage(content);
+        notification.setMessage(request.getRequestType() + ": " + content);
         notification.setStatus("ACTIVE");
         notificationRepository.save(notification);
 
-        return new ResponseEntity<>("Notification processed successfully", HttpStatus.OK);
+        return new ResponseEntity<>(successMessage, HttpStatus.OK);
     }
 }

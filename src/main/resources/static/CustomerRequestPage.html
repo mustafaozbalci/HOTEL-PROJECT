@@ -96,13 +96,13 @@
     <div class="request-options">
         <div class="request-option" onclick="selectRequest('extraPerson')">Extra Person Request</div>
         <div class="request-option" onclick="showSpaForm()">Spa Request</div>
-        <div class="request-option" onclick="selectRequest('foodAndDrink')">Food And Drink Request</div>
+        <div class="request-option" onclick="selectRequest('foodAndDrinks')">Food And Drink Request</div>
         <div class="request-option" onclick="selectRequest('extendingAccommodation')">Extending Accommodation Request</div>
     </div>
 
     <div class="hotel-info">
         <h2>Hotel Accommodation Information</h2>
-        <p>Welcome to Marmara Hotel.At the hotel, your guests can stay in your room by making an extra person request by paying the extra person difference according to the number of people in your reservation, but the room capacity must meet this.You can also make a spa appointment, order extra food and beverages, and request an extension to your reservation here.</p>
+        <p>Welcome to Marmara Hotel. At the hotel, your guests can stay in your room by making an extra person request by paying the extra person difference according to the number of people in your reservation, but the room capacity must meet this. You can also make a spa appointment, order extra food and beverages, and request an extension to your reservation here.</p>
     </div>
 
     <div id="spaAmount">Spa Amount is 40€</div>
@@ -121,42 +121,26 @@
 
 <script>
     function selectRequest(requestType) {
-        if (requestType === 'extraPerson') {
-            sendNotificationRequest(requestType);
-        } else {
-            alert('Selected Request: ' + requestType);
-            // Perform other actions based on different requests if needed
+        switch (requestType) {
+            case 'extraPerson':
+                sendExtraPersonRequest();
+                break;
+            case 'spa':
+                sendSpaRequest();
+                break;
+            case 'extendingAccommodation':
+                sendExtendedAccommodationRequest();
+                break;
+            case 'foodAndDrinks':
+                // Yeni eklenen kısmı işle
+                redirectToMenu();
+                break;
+            default:
+                alert('Invalid Request Type: ' + requestType);
         }
     }
 
-    function sendNotificationRequest(requestType) {
-        var xhr = new XMLHttpRequest();
-        var url = 'http://localhost:8080/process-request/notifications'; // Update the URL with your server endpoint
-
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        var content = 'Extra Person Request - ' + new Date().toLocaleString();
-
-        var requestData = {
-            requestType: requestType,
-            content: content
-        };
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                alert('Notification sent successfully!');
-            }
-        };
-
-        xhr.send(JSON.stringify(requestData));
-
-        // Simulate server-side behavior locally
-        sendNotificationToServer(requestData);
-    }
-
     function sendNotificationToServer(requestData) {
-        // Simulate server-side behavior locally
         var xhr = new XMLHttpRequest();
         var url = 'http://localhost:8080/simulate-notification'; // Update with your server endpoint for simulation
 
@@ -172,6 +156,32 @@
         xhr.send(JSON.stringify(requestData));
     }
 
+    function sendExtraPersonRequest() {
+        var xhr = new XMLHttpRequest();
+        var url = 'http://localhost:8080/process-request/notifications'; // Update the URL with your server endpoint
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        var content = 'Extra Person Request - ' + new Date().toLocaleString();
+
+        var requestData = {
+            requestType: 'ExtraPerson',
+            content: content
+        };
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Extra Person Request sent successfully!');
+            }
+        };
+
+        xhr.send(JSON.stringify(requestData));
+
+        // Simulate server-side behavior locally
+        sendNotificationToServer(requestData);
+    }
+
     function showSpaForm() {
         document.getElementById('spaForm').style.display = 'block';
     }
@@ -180,17 +190,61 @@
         var spaDate = document.getElementById('spaDate').value;
         var spaTime = document.getElementById('spaTime').value;
         var spaAmountDisplay = document.getElementById('spaAmount');
-        var extraPersonDifferences= document.getElementById('extrapersondifference');
+        var extraPersonDifferences = document.getElementById('extrapersondifference');
 
-        // Burada tarih ve saat ile ilgili işlemleri yapabilirsiniz.
+        // Send spa request to the server
+        var xhr = new XMLHttpRequest();
+        var url = 'http://localhost:8080/process-request/spa-requests'; // Update the URL with your server endpoint for spa requests
 
-        // Örnek olarak sabit bir spa ücreti ekledim.
-        var spaAmount = 40;
-        var extraPersonDifference=30;
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
 
-        spaAmountDisplay.textContent = 'Spa Amount is ' + spaAmount + '€';
-        extraPersonDifferences.textContent='Extra Person Difference is'+ extraPersonDifference+ '€';
+        var requestData = {
+            requestType: 'Spa',
+            content: 'Spa Request - Date: ' + spaDate + ', Time: ' + spaTime
+        };
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Spa Request sent successfully!');
+            }
+        };
+
+        xhr.send(JSON.stringify(requestData));
+    }
+
+    function sendExtendedAccommodationRequest() {
+        var xhr = new XMLHttpRequest();
+        var url = 'http://localhost:8080/process-request/extend-accommodation-requests';
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        var content = 'Extend Accommodation Request - ' + new Date().toLocaleString();
+
+        var requestData = {
+            requestType: 'ExtendingAccommodation',
+            content: content
+        };
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Extending Accommodation Request sent successfully!');
+            }
+        };
+
+        xhr.send(JSON.stringify(requestData));
+
+        // Simulate server-side behavior locally
+        sendNotificationToServer(requestData);
+    }
+
+    function redirectToMenu() {
+        // Menü sayfasının URL'sini güncelleyebilir veya window.location.href kullanarak yönlendirme yapabilirsiniz.
+        // Örneğin:
+        window.location.href = 'http://localhost:8080/Menü.html'; // Menü sayfasının URL'sini güncelle
     }
 </script>
 </body>
 </html>
+
