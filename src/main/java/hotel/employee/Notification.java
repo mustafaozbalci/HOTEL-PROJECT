@@ -19,6 +19,5 @@ public class Notification {
 
     private String message;
     private String status; // "ACTIVE" veya "PASSIVE" olabilir
-
-    // Diğer gerekli alanları ekleyebilirsiniz
+    private int roomNumber;
 }

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notification List</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      background-color: #f1f1f1; /* Background color */
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      background-color: #333; /* Header background color */
+      color: #fff; /* Header text color */
+    }
+
+    button {
+      background-color: #4CAF50; /* Button background color */
+      color: white;
+      padding: 10px 15px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049; /* Button hover color */
+    }
+
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #fff; /* Table background color */
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #4CAF50; /* Header background color */
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5; /* Row hover color */
+    }
+
+    button.deactivate {
+      background-color: #f44336; /* Deactivate button background color */
+    }
+
+    button.deactivate:hover {
+      background-color: #d32f2f; /* Deactivate button hover color */
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Notification List</h1>
+
+<!-- Refresh button -->
+<button onclick="refreshNotifications()">Refresh</button>
+<!-- History Button *-->
+<button onclick="showHistory()">History</button>
+<div id="historyModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeHistoryModal()">&times;</span>
+    <h2>Notification History</h2>
+    <!-- History table -->
+    <table>
+      <thead>
+      <tr>
+        <th>Notification ID</th>
+        <th>Message</th>
+        <th>Status</th>
+        <th>Room Number</th>
+      </tr>
+      </thead>
+      <tbody id="historyTableBody">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<!-- Notification table -->
+<table>
+  <thead>
+  <tr>
+    <th>Notification ID</th>
+    <th>Message</th>
+    <th>Status</th>
+    <th>Room Number</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody id="notificationTableBody">
+  </tbody>
+</table>
+
+<script>
+  function refreshNotifications() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/process-request", true);
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          var notifications = JSON.parse(xhr.responseText);
+          updateNotificationTable(notifications);
+        } else {
+          alert("Error fetching notifications. Server status: " + xhr.status);
+        }
+      }
+    };
+
+    xhr.send();
+  }
+
+  function updateNotificationTable(notifications) {
+    var tableBody = document.getElementById("notificationTableBody");
+    tableBody.innerHTML = "";
+
+    notifications.forEach(function (notification) {
+      var row = tableBody.insertRow();
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+      var cell5 = row.insertCell(4);
+
+      cell1.innerHTML = notification.notificationId;
+      cell2.innerHTML = notification.message;
+      cell3.innerHTML = notification.status;
+      cell4.innerHTML = notification.roomNumber;
+
+      if (notification.status === "ACTIVE") {
+        var button = document.createElement("button");
+        button.innerHTML = "Deactivate";
+        button.onclick = function () {
+          deactivateNotification(notification.notificationId, row);
+        };
+        cell5.appendChild(button);
+      } else {
+        cell5.innerHTML = "N/A";
+      }
+    });
+  }
+
+  function deactivateNotification(notificationId, row) {
+    var employeeId = prompt("Enter Employee ID:");
+
+    if (employeeId !== null && employeeId !== "") {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/process-request/deactivate-notification", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            row.cells[2].innerHTML = "PASSIVE";
+            alert("Notification deactivated successfully");
+          } else {
+            alert("Error during deactivation. Server status: " + xhr.status);
+          }
+        }
+      };
+
+      var data = {
+        notificationId: notificationId,
+        employeeId: employeeId
+      };
+
+      xhr.send(JSON.stringify(data));
+    } else {
+      alert("Deactivation canceled or invalid Employee ID");
+    }
+  }
+
+  window.onload = function () {
+    refreshNotifications();
+  };
+  function showHistory() {
+    var modal = document.getElementById('historyModal');
+    modal.style.display = 'block';
+    refreshHistory();
+  }
+
+  function closeHistoryModal() {
+    var modal = document.getElementById('historyModal');
+    modal.style.display = 'none';
+  }
+  function refreshHistory() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/process-request/notification-history", true);
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          var historyNotifications = JSON.parse(xhr.responseText);
+          updateHistoryTable(historyNotifications);
+        } else {
+          alert("Error fetching history notifications. Server status: " + xhr.status);
+        }
+      }
+    };
+
+    xhr.send();
+  }
+  function updateHistoryTable(historyNotifications) {
+    var historyTableBody = document.getElementById("historyTableBody");
+    historyTableBody.innerHTML = "";
+
+    historyNotifications.forEach(function (notification) {
+      var row = historyTableBody.insertRow();
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+
+      cell1.innerHTML = notification.notificationId;
+      cell2.innerHTML = notification.message;
+      cell3.innerHTML = notification.status;
+      cell4.innerHTML = notification.roomNumber;
+    });
+  }
+</script>
+
+</body>
+</html>

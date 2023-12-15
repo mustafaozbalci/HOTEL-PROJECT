@@ -178,7 +178,6 @@
 
         xhr.send(JSON.stringify(requestData));
 
-        // Simulate server-side behavior locally
         sendNotificationToServer(requestData);
     }
 
@@ -240,9 +239,7 @@
     }
 
     function redirectToMenu() {
-        // Menü sayfasının URL'sini güncelleyebilir veya window.location.href kullanarak yönlendirme yapabilirsiniz.
-        // Örneğin:
-        window.location.href = 'http://localhost:8080/Menü.html'; // Menü sayfasının URL'sini güncelle
+        window.location.href = 'http://localhost:8080/Menü.html';
     }
 </script>
 </body>
