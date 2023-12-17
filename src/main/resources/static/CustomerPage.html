@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otel Uygulaması</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        header {
+            background-color: #f2f2f2;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Otel Uygulaması</h1>
+    <p>Welcome <span id="username">[Misafir]</span></p>
+</header>
+
+<nav>
+    <a href="index.html">Ana Sayfa</a>
+    <a href="Menü.html">Menü</a>
+    <a href="CustomerRequestPage.html">Müşteri Talepleri</a>
+</nav>
+
+<main>
+    <h2>Ana Sayfa</h2>
+    <p>Burada otel ile ilgili genel bilgiler bulunabilir.</p>
+</main>
+
+<script>
+    // Kullanıcı adını alma ve yazma
+    var username = prompt("Lütfen isminizi girin:");
+    document.getElementById("username").textContent = username || "[Misafir]";
+</script>
+
+</body>
+</html>

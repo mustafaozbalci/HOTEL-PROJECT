@@ -2,6 +2,7 @@ package hotel.customer;
 
 import hotel.reservation.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,16 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Customer>> getAllCustomers() {
+        List<Customer> customers = customerService.getAllCustomers();
+
+        if (!customers.isEmpty()) {
+            return ResponseEntity.ok(customers);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
 
     @GetMapping("/{customerId}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long customerId) {
@@ -39,7 +50,7 @@ public class CustomerController {
         }
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Customer> createCustomerWithReservation(@RequestBody Customer customer) {
         Customer savedCustomer = customerService.saveCustomerWithReservation(customer);
         return ResponseEntity.ok(savedCustomer);

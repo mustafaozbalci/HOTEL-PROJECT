@@ -106,6 +106,9 @@
 <button onclick="refreshNotifications()">Refresh</button>
 <!-- History Button *-->
 <button onclick="showHistory()">History</button>
+<!-- Back to Employee Page button -->
+<button onclick="goToEmployeePage()" style="position: fixed; bottom: 10px; left: 10px;">Back to Employee Page</button>
+
 <div id="historyModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeHistoryModal()">&times;</span>
@@ -268,6 +271,11 @@
       cell3.innerHTML = notification.status;
       cell4.innerHTML = notification.roomNumber;
     });
+  }
+  function goToEmployeePage() {
+    // Burada istediğiniz sayfaya geri dönüş işlemini gerçekleştirebilirsiniz.
+    // Örneğin, EmployeePage.html dosyasına yönlendirme:
+    window.location.href = 'EmployeePage.html';
   }
 </script>
 

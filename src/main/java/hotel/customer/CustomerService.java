@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class CustomerService {
 
@@ -20,10 +19,10 @@ public class CustomerService {
 
     @Transactional
     public Customer saveCustomerWithReservation(Customer customer) {
-        // Burada customer kaydedilir ve customerId elde edilir
+        // Müşteriyi kaydet ve customerId'yi elde et
         Customer savedCustomer = customerRepository.save(customer);
 
-        // Reservation kaydedilir ve customer ile ilişkilendirilir
+        // Rezervasyonu kaydet ve müşteri ile ilişkilendir
         Reservation reservation = new Reservation();
         reservation.setCustomer(savedCustomer);
         reservation.setRoomNumber(customer.getRoomNumber());
@@ -42,5 +41,9 @@ public class CustomerService {
         Optional<Customer> customerOptional = customerRepository.findById(customerId);
 
         return customerOptional.map(Customer::getReservations).orElse(List.of());
+    }
+
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
     }
 }

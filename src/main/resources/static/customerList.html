@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- Font Awesome CSS ekleyin -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background-color: #141414; /* Background color */
+            color: #fbfbfb; /* Text color */
+        }
+
+        .center {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fbfbfb;
+            min-height: 100vh;
+        }
+
+        .customer-list-container {
+            /* ... (existing styles) ... */
+            overflow-x: auto;
+        }
+
+        .customer-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            white-space: nowrap; /* Prevent text wrapping in cells */
+        }
+
+        .customer-table th,
+        .customer-table td {
+            border: 1px solid #ddd;
+            padding: 8px; /* Decreased padding for a more compact look */
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 14px; /* Adjust the font size as needed */
+        }
+
+        .customer-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .customer-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .back-button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-button:hover {
+            background-color: #555;
+        }
+
+        .back-icon {
+            margin-right: 10px;
+        }
+    </style>
+    <title>Mevcut Müşteriler</title>
+</head>
+<body>
+<div class="center">
+    <div class="customer-list-container">
+        <h2>Current Customers</h2>
+        <div id="customerList"></div>
+
+        <!-- Geri butonu -->
+        <button class="back-button" onclick="goToEmployeePage()">
+            <i class="back-icon fas fa-arrow-left"></i> Back To EmployeePage
+        </button>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        // Sayfa yüklendiğinde mevcut müşterileri getir ve listele
+        fetchCustomerList();
+    });
+
+    // Mevcut müşterileri getir
+    function fetchCustomerList() {
+        $.ajax({
+            type: 'GET',
+            url: '/api/customer/all', // Bu endpoint'i oluşturmalısın
+            success: function (customers) {
+                displayCustomerList(customers);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching customer list:', error);
+            }
+        });
+    }
+
+    // Müşteri listesini görüntüle
+    function displayCustomerList(customers) {
+        var customerListContainer = $('#customerList');
+        customerListContainer.empty(); // Clear previous content
+
+        if (customers.length > 0) {
+            var table = $('<table>').addClass('customer-table');
+            var headerRow = $('<tr>').append(
+                $('<th>').text('Customer ID'),
+                $('<th>').text('Name'),
+                $('<th>').text('Surname'),
+                $('<th>').text('Room Number'),
+                $('<th>').text('Birth Date'),
+                $('<th>').text('Sex'),
+                $('<th>').text('Entry Date'),
+                $('<th>').text('Exit Date'),
+                $('<th>').text('Check ID'),
+                $('<th>').text('Customer TC'),
+                $('<th>').text('Email'),
+                $('<th>').text('Phone Number')
+            );
+            table.append(headerRow);
+
+            customers.forEach(function (customer) {
+                var customerRow = $('<tr>').append(
+                    $('<td>').text(customer.customerId),
+                    $('<td>').text(customer.customerName),
+                    $('<td>').text(customer.customerSurname),
+                    $('<td>').text(customer.roomNumber),
+                    $('<td>').text(customer.birthDate),
+                    $('<td>').text(customer.sex),
+                    $('<td>').text(customer.entryDate),
+                    $('<td>').text(customer.exitDate),
+                    $('<td>').text(customer.checkId),
+                    $('<td>').text(customer.customerTC),
+                    $('<td>').text(customer.email),
+                    $('<td>').text(customer.phoneNumber)
+                );
+                table.append(customerRow);
+            });
+
+            customerListContainer.append(table);
+        } else {
+            customerListContainer.text('No customers found.');
+        }
+    }
+    function goToEmployeePage() {
+        // Burada istediğiniz sayfaya geri dönüş işlemini gerçekleştirebilirsiniz.
+        // Örneğin, EmployeePage.html dosyasına yönlendirme:
+        window.location.href = 'EmployeePage.html';
+    }
+</script>
+
+</body>
+</html>

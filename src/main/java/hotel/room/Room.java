@@ -29,5 +29,8 @@ public class Room {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "is_available", columnDefinition = "boolean default true") // Varsayılan değeri "true" olarak ayarlandı.
+    private boolean isAvailable;
+
 
 }

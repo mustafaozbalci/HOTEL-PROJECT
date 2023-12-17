@@ -24,7 +24,7 @@
             font-weight: bold;
         }
 
-        #backButton {
+        .backButton {
             cursor: pointer;
             color: #333;
             font-size: 16px;
@@ -35,7 +35,8 @@
 </head>
 <body>
 
-<div id="backButton">← Back</div>
+<div class="backButton" onclick="goBackToPage('CustomerRequestPage.html')">Back to Request Page</div>
+<div class="backButton" onclick="goBackToPage('CustomerPage.html')">Back to Home Page</div>
 
 <h1>Hotel Menu</h1>
 
@@ -100,11 +101,9 @@
 </div>
 
 <script>
-    //BACK TUŞU
-    document.getElementById('backButton').addEventListener('click', function () {
-
-        window.location.href = 'http://localhost:8080/CustomerRequestPage.html';
-    });
+    function goBackToPage(page) {
+        window.location.href = page;
+    }
 </script>
 
 </body>
