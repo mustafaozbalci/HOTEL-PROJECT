@@ -129,8 +129,6 @@
   </div>
 </div>
 
-
-
 <!-- Notification table -->
 <table>
   <thead>
@@ -138,7 +136,7 @@
     <th>Notification ID</th>
     <th>Message</th>
     <th>Status</th>
-    <th>Room Number</th>
+    <th>Room Number</th> <!-- Yeni eklenen sütun -->
     <th>Action</th>
   </tr>
   </thead>
@@ -174,14 +172,13 @@
       var cell1 = row.insertCell(0);
       var cell2 = row.insertCell(1);
       var cell3 = row.insertCell(2);
-      var cell4 = row.insertCell(3);
+      var cell4 = row.insertCell(3); // Yeni eklenen sütun
       var cell5 = row.insertCell(4);
 
       cell1.innerHTML = notification.notificationId;
       cell2.innerHTML = notification.message;
       cell3.innerHTML = notification.status;
-      cell4.innerHTML = notification.roomNumber;
-
+      cell4.innerHTML = notification.roomNumber; // Yeni eklenen sütun
       if (notification.status === "ACTIVE") {
         var button = document.createElement("button");
         button.innerHTML = "Deactivate";
@@ -277,6 +274,26 @@
     // Örneğin, EmployeePage.html dosyasına yönlendirme:
     window.location.href = 'EmployeePage.html';
   }
+    function sendRoomNumberToPage(roomNumber) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/process-request/send-room-number", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+    if (xhr.status === 200) {
+    // Başarılı bir şekilde gönderildi.
+  } else {
+    alert("Error sending room number. Server status: " + xhr.status);
+  }
+  }
+  };
+
+    var data = JSON.stringify(roomNumber);
+    xhr.send(data);
+  }
+
+
 </script>
 
 </body>

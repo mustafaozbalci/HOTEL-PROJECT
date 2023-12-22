@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .menu-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        h2, p {
+            margin: 0;
+        }
+
+        .price {
+            color: green;
+            font-weight: bold;
+        }
+
+        .backButton {
+            cursor: pointer;
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 20px;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="backButton" onclick="goBackToPage('CustomerRequestPage.html')">Back to Request Page</div>
+<div class="backButton" onclick="goBackToPage('CustomerPage.html')">Back to Home Page</div>
+
+<h1>Hotel Menu</h1>
+
+<div class="menu-item">
+    <h2>Italian Pasta</h2>
+    <p>Delicious Italian pasta served with homemade marinara sauce and fresh herbs.</p>
+    <p class="price">$15.99</p>
+</div>
+
+<div class="menu-item">
+    <h2>Grilled Salmon</h2>
+    <p>Healthy option with grilled salmon fillet served with fresh lemon and olive oil.</p>
+    <p class="price">$18.99</p>
+</div>
+
+<div class="menu-item">
+    <h2>Breakfast Burger</h2>
+    <p>Delicious breakfast burger with crispy outer shell, egg, cheese, tomato, and bacon.</p>
+    <p class="price">$12.99</p>
+</div>
+
+<div class="menu-item">
+    <h2>Fruit Smoothie</h2>
+    <p>Refreshing fruit smoothie made with a variety of fresh fruits.</p>
+    <p class="price">$7.99</p>
+</div>
+
+<div class="menu-item">
+    <h2>Caesar Salad</h2>
+    <p>Classic Caesar salad with crisp romaine lettuce, croutons, Parmesan cheese, and Caesar dressing.</p>
+    <p class="price">$9.99</p>
+</div>
+
+<div class="menu-item">
+    <h2>Margarita Pizza</h2>
+    <p>Traditional Margarita pizza topped with fresh tomatoes, mozzarella, and basil.</p>
+    <p class="price">$14.99</p>
+</div>
+
+<div class="menu-item">
+    <h2>Vegetarian Wrap</h2>
+    <p>Healthy vegetarian wrap with mixed vegetables, hummus, and whole wheat tortilla.</p>
+    <p class="price">$11.99</p>
+</div>
+
+<div class="menu-item">
+    <h2>Chocolate Brownie Sundae</h2>
+    <p>Indulgent chocolate brownie sundae with vanilla ice cream, chocolate sauce, and whipped cream.</p>
+    <p class="price">$8.99</p>
+</div>
+
+<div class="menu-item">
+    <h2>Chicken Alfredo</h2>
+    <p>Classic Chicken Alfredo pasta with creamy Alfredo sauce and grilled chicken.</p>
+    <p class="price">$16.99</p>
+</div>
+
+<div class="menu-item">
+    <h2>Green Detox Smoothie</h2>
+    <p>Detoxifying green smoothie with spinach, kale, pineapple, and coconut water.</p>
+    <p class="price">$6.99</p>
+</div>
+
+<script>
+    function goBackToPage(page) {
+        window.location.href = page;
+    }
+</script>
+
+</body>
+</html>

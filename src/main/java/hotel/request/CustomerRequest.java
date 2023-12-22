@@ -7,4 +7,5 @@ public class CustomerRequest {
 
     private String requestType;
     private String content;
+    private Integer roomNumber;
 }

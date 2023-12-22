@@ -81,6 +81,23 @@
             font-weight: bold;
             margin-top: 10px;
         }
+
+        #backToHomeButton {
+             position: fixed;
+             bottom: 10px;
+             left: 10px;
+             padding: 10px;
+             background-color: #3498db;
+             color: #fff;
+             border: none;
+             border-radius: 5px;
+             cursor: pointer;
+             font-size: 16px;
+         }
+
+        #backToHomeButton:hover {
+            background-color: #2980b9;
+        }
     </style>
     <title>Hotel Page</title>
 </head>
@@ -92,7 +109,7 @@
 
 <div class="center">
     <h2>Requests</h2>
-
+    <button id="backToHomeButton" onclick="redirectToHome()">Back to Home</button>
     <div class="request-options">
         <div class="request-option" onclick="selectRequest('extraPerson')">Extra Person Request</div>
         <div class="request-option" onclick="showSpaForm()">Spa Request</div>
@@ -117,6 +134,7 @@
 
         <button onclick="submitSpaRequest()">Submit Spa Request</button>
     </div>
+
 </div>
 
 <script>
@@ -157,6 +175,13 @@
     }
 
     function sendExtraPersonRequest() {
+        var roomNumber = sessionStorage.getItem('roomNumber');
+
+        if (roomNumber === '0') {
+            alert('Uyarı: Talep gönderilemez. Uyarı kaydınız henüz tamamlanmamıştır.');
+            return;
+        }
+
         var xhr = new XMLHttpRequest();
         var url = 'http://localhost:8080/process-request/notifications'; // Update the URL with your server endpoint
 
@@ -167,7 +192,8 @@
 
         var requestData = {
             requestType: 'ExtraPerson',
-            content: content
+            content: content,
+            roomNumber: sessionStorage.getItem('roomNumber') // roomNumber bilgisini al
         };
 
         xhr.onreadystatechange = function () {
@@ -186,6 +212,12 @@
     }
 
     function submitSpaRequest() {
+        var roomNumber = sessionStorage.getItem('roomNumber');
+
+        if (roomNumber === '0') {
+            alert('Uyarı: Talep gönderilemez. Uyarı kaydınız henüz tamamlanmamıştır.');
+            return;
+        }
         var spaDate = document.getElementById('spaDate').value;
         var spaTime = document.getElementById('spaTime').value;
         var spaAmountDisplay = document.getElementById('spaAmount');
@@ -200,7 +232,8 @@
 
         var requestData = {
             requestType: 'Spa',
-            content: 'Spa Request - Date: ' + spaDate + ', Time: ' + spaTime
+            content: 'Spa Request - Date: ' + spaDate + ', Time: ' + spaTime,
+            roomNumber: sessionStorage.getItem('roomNumber') // roomNumber bilgisini al
         };
 
         xhr.onreadystatechange = function () {
@@ -213,6 +246,12 @@
     }
 
     function sendExtendedAccommodationRequest() {
+        var roomNumber = sessionStorage.getItem('roomNumber');
+
+        if (roomNumber === '0') {
+            alert('Uyarı: Talep gönderilemez. Uyarı kaydınız henüz tamamlanmamıştır.');
+            return;
+        }
         var xhr = new XMLHttpRequest();
         var url = 'http://localhost:8080/process-request/extend-accommodation-requests';
 
@@ -223,7 +262,8 @@
 
         var requestData = {
             requestType: 'ExtendingAccommodation',
-            content: content
+            content: content,
+            roomNumber: sessionStorage.getItem('roomNumber') // roomNumber bilgisini al
         };
 
         xhr.onreadystatechange = function () {
@@ -239,9 +279,11 @@
     }
 
     function redirectToMenu() {
-        window.location.href = 'http://localhost:8080/Menü.html';
+        window.location.href = 'Menu.html';
+    }
+    function redirectToHome() {
+        window.location.href = 'CustomerPage.html';
     }
 </script>
 </body>
 </html>
-

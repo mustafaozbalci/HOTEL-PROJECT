@@ -2,57 +2,137 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Otel Uygulaması</title>
+    <title>Hotel Application</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 20px;
+            background-color: #f8f8f8;
+            color: #333;
         }
 
         header {
-            background-color: #f2f2f2;
-            padding: 10px;
+            background-color: #4CAF50;
+            padding: 20px;
             text-align: center;
+            color: #fff;
         }
 
         nav {
-            margin-top: 10px;
+            margin-top: 20px;
+            text-align: center;
         }
 
         nav a {
             margin-right: 15px;
             text-decoration: none;
-            color: #333;
+            color: #4CAF50;
+            padding: 10px;
+            border: 1px solid #4CAF50;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #4CAF50;
+            color: #fff;
         }
 
         h2 {
-            color: #333;
+            color: #4CAF50;
+        }
+
+        main {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-
 <header>
-    <h1>Otel Uygulaması</h1>
-    <p>Welcome <span id="username">[Misafir]</span></p>
+    <h1>Hotel Application</h1>
+    <p>Welcome <span id="username">[Guest]</span></p>
 </header>
 
 <nav>
-    <a href="index.html">Ana Sayfa</a>
-    <a href="Menü.html">Menü</a>
-    <a href="CustomerRequestPage.html">Müşteri Talepleri</a>
+    <a href="CustomerPage.html">Home</a>
+    <a href="Menu.html">Menu</a>
+    <a href="CustomerRequestPage.html">Customer Requests</a>
 </nav>
 
 <main>
-    <h2>Ana Sayfa</h2>
-    <p>Burada otel ile ilgili genel bilgiler bulunabilir.</p>
+    <h2>Home</h2>
+    <p>General information about the hotel can be found here.</p>
+
+    <!-- New section for customer details -->
+    <section id="customerDetails">
+        <h3>Customer Details</h3>
+        <ul>
+            <li><strong>Name:</strong> <span id="customerName"></span></li>
+            <li><strong>Surname:</strong> <span id="customerSurname"></span></li>
+            <li><strong>Room Number:</strong> <span id="roomNumber"></span></li>
+            <li><strong>Birth Date:</strong> <span id="birthDate"></span></li>
+            <li><strong>Gender:</strong> <span id="sex"></span></li>
+            <li><strong>Entry Date:</strong> <span id="entryDate"></span></li>
+            <li><strong>Exit Date:</strong> <span id="exitDate"></span></li>
+            <li><strong>TC Identification Number:</strong> <span id="customerTC"></span></li>
+            <li><strong>Email:</strong> <span id="email"></span></li>
+            <li><strong>Phone Number:</strong> <span id="phoneNumber"></span></li>
+        </ul>
+    </section>
 </main>
 
 <script>
-    // Kullanıcı adını alma ve yazma
-    var username = prompt("Lütfen isminizi girin:");
-    document.getElementById("username").textContent = username || "[Misafir]";
+    // Check if customer details are already in sessionStorage
+    var customerName = sessionStorage.getItem('customerName');
+
+    // If not, get customer details from URL
+    if (!customerName) {
+        var urlParams = new URLSearchParams(window.location.search);
+        customerName = urlParams.get('customerName');
+
+        // Save customer details to sessionStorage
+        sessionStorage.setItem('customerName', customerName);
+        sessionStorage.setItem('customerSurname', urlParams.get('customerSurname'));
+        sessionStorage.setItem('roomNumber', urlParams.get('roomNumber'));
+        sessionStorage.setItem('birthDate', urlParams.get('birthDate'));
+        sessionStorage.setItem('sex', urlParams.get('sex'));
+        sessionStorage.setItem('entryDate', urlParams.get('entryDate'));
+        sessionStorage.setItem('exitDate', urlParams.get('exitDate'));
+        sessionStorage.setItem('customerTC', urlParams.get('customerTC'));
+        sessionStorage.setItem('email', urlParams.get('email'));
+        sessionStorage.setItem('phoneNumber', urlParams.get('phoneNumber'));
+    }
+
+    // Update welcome message with the customer's name
+    if (customerName) {
+        document.getElementById('username').innerText = customerName;
+
+        // Update customer details
+        document.getElementById('customerName').innerText = sessionStorage.getItem('customerName');
+        document.getElementById('customerSurname').innerText = sessionStorage.getItem('customerSurname');
+        document.getElementById('roomNumber').innerText = sessionStorage.getItem('roomNumber');
+        document.getElementById('birthDate').innerText = sessionStorage.getItem('birthDate');
+        document.getElementById('sex').innerText = sessionStorage.getItem('sex');
+        document.getElementById('entryDate').innerText = sessionStorage.getItem('entryDate');
+        document.getElementById('exitDate').innerText = sessionStorage.getItem('exitDate');
+        document.getElementById('customerTC').innerText = sessionStorage.getItem('customerTC');
+        document.getElementById('email').innerText = sessionStorage.getItem('email');
+        document.getElementById('phoneNumber').innerText = sessionStorage.getItem('phoneNumber');
+    }if (!customerName) {
+        var urlParams = new URLSearchParams(window.location.search);
+        customerName = urlParams.get('customerName');
+
+        // Save customer details to sessionStorage
+        sessionStorage.setItem('customerName', customerName);
+        sessionStorage.setItem('customerSurname', urlParams.get('customerSurname'));
+
+        // Parse roomNumber as an integer and then save to sessionStorage
+        var roomNumber = parseInt(urlParams.get('roomNumber'), 10) || 0; // Default to 0 if not a valid number
+        sessionStorage.setItem('roomNumber', roomNumber);
+        // ... (diğer bilgileri kaydetme işlemleri)
+    }
 </script>
 
 </body>

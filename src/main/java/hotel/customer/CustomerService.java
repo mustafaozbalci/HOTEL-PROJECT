@@ -46,4 +46,24 @@ public class CustomerService {
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
+    public Customer getCustomerByTC(String customerTC) {
+        return customerRepository.findByCustomerTC(customerTC);
+    }
+    public Customer saveCustomer(Customer customer) {
+        return customerRepository.save(customer);
+    }
+    public String updateRoomNumber(Long customerId, String newRoomNumber) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            customer.setRoomNumber(newRoomNumber);
+            customerRepository.save(customer); // Save the updated customer
+            return "Room number updated successfully";
+        } else {
+            // You can customize the error message based on your application's requirements
+            throw new RuntimeException("Customer not found with id: " + customerId);
+        }
+    }
+
 }

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1; /* Background color */
+    }
+
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .customer-list-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .customer-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .customer-table th,
+    .customer-table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+
+    .customer-table th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .customer-table tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .back-button {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      text-decoration: none; /* Remove default underline */
+      margin-top: 10px;
+    }
+
+    .back-button:hover {
+      background-color: #555;
+    }
+
+    .back-icon {
+      margin-right: 10px;
+    }
+  </style>
+  <title>Customer Information</title>
+</head>
+
+<body>
+<div class="center">
+  <div class="customer-list-container">
+    <h2>Customer Information</h2>
+    <div id="customerListTable"></div>
+  </div>
+  <a class="back-button" href="EmployeePage.html">
+    <i class="back-icon fas fa-arrow-left"></i> Back To EmployeePage
+  </a>
+</div>
+
+<script>
+  function displayCustomerList(customers) {
+    var customerListContainer = $('#customerListTable');
+    customerListContainer.empty();
+
+    if (customers.length > 0) {
+      var table = $('<table>').addClass('customer-table');
+      var headerRow = $('<tr>').append(
+              $('<th>').text('Customer ID'),
+              $('<th>').text('Name'),
+              $('<th>').text('Surname'),
+              $('<th>').text('Room Number'),
+              $('<th>').text('Birth Date'),
+              $('<th>').text('Sex'),
+              $('<th>').text('Entry Date'),
+              $('<th>').text('Exit Date'),
+              $('<th>').text('Check ID'),
+              $('<th>').text('Customer TC'),
+              $('<th>').text('Actions') // New column for actions
+      );
+      table.append(headerRow);
+
+      customers.forEach(function (customer) {
+        var customerRow = $('<tr>').append(
+                $('<td>').text(customer.customerId),
+                $('<td>').text(customer.customerName),
+                $('<td>').text(customer.customerSurname),
+                $('<td>').text(customer.roomNumber),
+                $('<td>').text(customer.birthDate),
+                $('<td>').text(customer.sex),
+                $('<td>').text(customer.entryDate),
+                $('<td>').text(customer.exitDate),
+                $('<td>').text(customer.checkId),
+                $('<td>').text(customer.customerTC),
+                $('<td>').append(
+                        $('<button>').text('Update Room Number').click(function () {
+                          updateRoomNumber(customer.customerId);
+                        })
+                )
+        );
+        table.append(customerRow);
+      });
+
+      customerListContainer.append(table);
+    } else {
+      customerListContainer.text('No customers found.');
+    }
+  }
+
+  function fetchCustomerList() {
+    $.ajax({
+      type: 'GET',
+      url: '/api/customer/waitingReservation', // Update with your endpoint
+      success: function (customers) {
+        displayCustomerList(customers);
+      },
+      error: function (xhr, status, error) {
+        console.error('Error fetching customer list:', error);
+      }
+    });
+  }
+
+  $(document).ready(function () {
+    fetchCustomerList();
+  });
+
+  function updateRoomNumber(customerId) {
+    var newRoomNumber = prompt('Enter the new room number:'); // You can use a form or other UI for this
+
+    if (newRoomNumber === null) {
+      return; // User canceled the prompt
+    }
+
+    if (!newRoomNumber) {
+      alert('Please enter a room number.');
+      return;
+    }
+
+    // Assuming you have an endpoint for updating room numbers with the customer ID
+    $.ajax({
+      type: 'PUT', // Change this to PUT
+      url: '/api/customer/updateRoomNumber/' + customerId,
+      data: { newRoomNumber: newRoomNumber },
+      success: function (response) {
+        fetchCustomerList();
+      },
+      error: function (xhr, status, error) {
+        console.error('Error updating room number:', error);
+      }
+    });
+  }
+</script>
+</body>
+
+</html>

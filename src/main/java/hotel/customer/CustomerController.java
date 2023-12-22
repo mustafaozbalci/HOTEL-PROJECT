@@ -2,12 +2,14 @@ package hotel.customer;
 
 import hotel.reservation.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/customer")
@@ -26,6 +28,22 @@ public class CustomerController {
             return ResponseEntity.noContent().build();
         }
     }
+    @GetMapping("/waitingReservation")
+    public ResponseEntity<List<Customer>> waitingCustomers() {
+        List<Customer> customers = customerService.getAllCustomers();
+
+        // roomNumber değeri 0'a eşit olan müşterileri filtrele
+        List<Customer> filteredCustomers = customers.stream()
+                .filter(customer -> customer.getRoomNumber() == 0)
+                .collect(Collectors.toList());
+
+        if (!filteredCustomers.isEmpty()) {
+            return ResponseEntity.ok(filteredCustomers);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
 
     @GetMapping("/{customerId}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long customerId) {
@@ -55,4 +73,34 @@ public class CustomerController {
         Customer savedCustomer = customerService.saveCustomerWithReservation(customer);
         return ResponseEntity.ok(savedCustomer);
     }
+
+    @GetMapping("/check/{customerTC}")
+    public ResponseEntity<?> checkCustomerByTC(@PathVariable String customerTC) {
+        Customer customer = customerService.getCustomerByTC(customerTC);
+
+        if (customer != null) {
+            // TC Kimlik No var ise müşteri bilgilerini dönebilirsiniz.
+            return ResponseEntity.ok(customer);
+        } else {
+            // TC Kimlik No yok ise hata mesajını dönebilirsiniz.
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Müşteri bulunamadı. TC Kimlik No kontrol ediniz.");
+        }
+    }
+    @PutMapping("/updateRoomNumber/{customerId}")
+    public ResponseEntity<String> updateRoomNumber(
+            @PathVariable Long customerId,
+            @RequestParam String newRoomNumber
+    ) {
+        try {
+            customerService.updateRoomNumber(customerId, newRoomNumber);
+            return new ResponseEntity<>("Room number updated successfully", HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 }
+

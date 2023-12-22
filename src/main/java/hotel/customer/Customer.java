@@ -34,17 +34,29 @@ public class Customer {
 
     @Column(name = "room_number")
     private int roomNumber;
+    public void setRoomNumber(String newRoomNumber) {
+        try {
+            this.roomNumber = Integer.parseInt(newRoomNumber);
+        } catch (NumberFormatException e) {
+            // Handle the case where newRoomNumber is not a valid integer
+            throw new IllegalArgumentException("Invalid room number format: " + newRoomNumber, e);
+        }
+    }
 
     @Column(name = "birth_date")
+    @Temporal(TemporalType.DATE)
     private Date birthDate;
 
     @Column(name = "sex")
     private String sex;
 
+
     @Column(name = "entry_date")
+    @Temporal(TemporalType.DATE)
     private Date entryDate;
 
     @Column(name = "exit_date")
+    @Temporal(TemporalType.DATE)
     private Date exitDate;
 
     @Column(name = "check_id")

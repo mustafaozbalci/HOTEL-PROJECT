@@ -32,15 +32,18 @@ public class NotificationController {
 
     private ResponseEntity<String> processRequest(CustomerRequest request, String successMessage) {
         String content = request.getContent();
+        int roomNumber = request.getRoomNumber();
 
         // Simulate request processing and save to the database
         Notification notification = new Notification();
         notification.setMessage(request.getRequestType() + ": " + content);
         notification.setStatus("ACTIVE");
+        notification.setRoomNumber(roomNumber);
         notificationRepository.save(notification);
 
         return new ResponseEntity<>(successMessage, HttpStatus.OK);
     }
+
 
     @GetMapping
     public ResponseEntity<List<Notification>> getActiveNotifications() {
@@ -75,12 +78,12 @@ public class NotificationController {
             return new ResponseEntity<>("Error during deactivation. Please check server logs.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/notification-history")
     public ResponseEntity<List<Notification>> getNotificationHistory() {
         List<Notification> historyNotifications = notificationRepository.findByStatus("PASSIVE");
         return new ResponseEntity<>(historyNotifications, HttpStatus.OK);
     }
-
 
 
 }
