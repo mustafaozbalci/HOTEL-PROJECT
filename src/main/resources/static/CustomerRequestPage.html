@@ -82,21 +82,21 @@
             margin-top: 10px;
         }
 
-        #backToHomeButton {
-             position: fixed;
-             bottom: 10px;
-             left: 10px;
-             padding: 10px;
-             background-color: #3498db;
-             color: #fff;
-             border: none;
-             border-radius: 5px;
-             cursor: pointer;
-             font-size: 16px;
-         }
+        button#backToCustomerPageButton {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-        #backToHomeButton:hover {
-            background-color: #2980b9;
+        button#backToCustomerPageButton:hover {
+            background-color: #45a049;
         }
     </style>
     <title>Hotel Page</title>
@@ -104,12 +104,12 @@
 <body>
 
 <video class="video-background" autoplay muted loop>
-    <source src="videos/HotelVideos3.mp4" type="video/mp4">
+    <source src="videos/CustomerRequestPageVideo.mp4" type="video/mp4">
 </video>
 
 <div class="center">
     <h2>Requests</h2>
-    <button id="backToHomeButton" onclick="redirectToHome()">Back to Home</button>
+    <button id="backToCustomerPageButton" onclick="goToCustomerPage()">Back to Customer Page</button>
     <div class="request-options">
         <div class="request-option" onclick="selectRequest('extraPerson')">Extra Person Request</div>
         <div class="request-option" onclick="showSpaForm()">Spa Request</div>
@@ -281,7 +281,7 @@
     function redirectToMenu() {
         window.location.href = 'Menu.html';
     }
-    function redirectToHome() {
+    function goToCustomerPage() {
         window.location.href = 'CustomerPage.html';
     }
 </script>

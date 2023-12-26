@@ -53,8 +53,8 @@ public class NotificationController {
 
     @PostMapping("/deactivate-notification")
     public ResponseEntity<String> deactivateNotification(@RequestBody DeactivateRequest request) {
-        String employeeId = request.getEmployeeId();
         Integer notificationId = Integer.parseInt(request.getNotificationId());
+        String action = request.getAction();
 
         try {
             Optional<Notification> optionalNotification = notificationRepository.findById(notificationId);
@@ -62,13 +62,17 @@ public class NotificationController {
             if (optionalNotification.isPresent()) {
                 Notification notification = optionalNotification.get();
 
-                // Check if the employee ID is 1
-                if ("1".equals(employeeId)) {
+                if ("confirm".equals(action)) {
                     notification.setStatus("PASSIVE");
                     notificationRepository.save(notification);
                     return new ResponseEntity<>("Notification deactivated successfully", HttpStatus.OK);
+                } else if ("reject".equals(action)) {
+                    notification.setStatus("REJECTED");
+                    notificationRepository.save(notification);
+                    return new ResponseEntity<>("Notification rejected successfully", HttpStatus.OK);
                 } else {
-                    return new ResponseEntity<>("Permission denied. You don't have the right to deactivate notifications.", HttpStatus.FORBIDDEN);
+                    // Handle other actions if needed
+                    return new ResponseEntity<>("Invalid action specified", HttpStatus.BAD_REQUEST);
                 }
             } else {
                 return new ResponseEntity<>("Notification not found", HttpStatus.NOT_FOUND);
@@ -79,10 +83,16 @@ public class NotificationController {
         }
     }
 
+
     @GetMapping("/notification-history")
     public ResponseEntity<List<Notification>> getNotificationHistory() {
-        List<Notification> historyNotifications = notificationRepository.findByStatus("PASSIVE");
+        List<Notification> historyNotifications = notificationRepository.findByStatusIn(List.of("PASSIVE", "REJECTED"));
         return new ResponseEntity<>(historyNotifications, HttpStatus.OK);
+    }
+    @GetMapping("/active-notifications")
+    public ResponseEntity<List<Notification>> getActiveNotificationsByRoomNumber(@RequestParam int roomNumber) {
+        List<Notification> activeNotifications = notificationRepository.findByStatusAndRoomNumber("ACTIVE", roomNumber);
+        return new ResponseEntity<>(activeNotifications, HttpStatus.OK);
     }
 
 

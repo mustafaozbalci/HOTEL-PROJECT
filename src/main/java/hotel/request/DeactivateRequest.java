@@ -6,4 +6,5 @@ import lombok.Data;
 public class DeactivateRequest {
     private String notificationId;
     private String employeeId;
+    private String action;
 }

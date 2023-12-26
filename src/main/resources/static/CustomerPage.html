@@ -59,6 +59,7 @@
     <a href="CustomerPage.html">Home</a>
     <a href="Menu.html">Menu</a>
     <a href="CustomerRequestPage.html">Customer Requests</a>
+    <a href="PendingNotifications.html">Pending Notifications</a>
 </nav>
 
 <main>
@@ -133,6 +134,9 @@
         sessionStorage.setItem('roomNumber', roomNumber);
         // ... (diğer bilgileri kaydetme işlemleri)
     }
+    document.querySelector('nav a[href="PendingNotifications.html"]').addEventListener('click', function () {
+        window.location.href = 'PendingNotifications.html';
+    });
 </script>
 
 </body>

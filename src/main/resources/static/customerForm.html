@@ -10,8 +10,22 @@
       padding: 0;
       font-family: Arial, sans-serif;
       overflow: hidden;
-      background-color: #141414; /* Arka plan rengi */
-      color: #fbfbfb; /* Metin rengi */
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .center {
@@ -23,8 +37,8 @@
       text-align: center;
       color: #fbfbfb;
       height: 100vh;
+      z-index: 1; /* Ensure that the form is on top of the video */
     }
-
     .form-container {
       max-width: 400px;
       margin: 20px auto;
@@ -62,6 +76,13 @@
   <title>Hoşgeldiniz - Rezervasyon Oluşturun</title>
 </head>
 <body>
+<div class="video-background">
+
+  <video class="video-background" autoplay muted loop>
+    <source src="videos/HotelVideos1.mp4" type="video/mp4">
+  </video>
+
+</div>
 <div class="center">
   <div class="form-container">
     <h2>Welcome</h2>

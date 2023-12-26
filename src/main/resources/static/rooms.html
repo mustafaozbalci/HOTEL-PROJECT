@@ -120,8 +120,11 @@
     <label for="editPrice">New Price:</label>
     <input type="number" id="editPrice" step="0.01" required>
     <button id="updatePriceButton">Update Price</button>
+
   </div>
 </div>
+<button onClick="goToEmployeePage()">Back to Employee Page</button>
+
 <!-- Customer ID Modal -->
 <div id="customerIdModal" class="modal">
   <div class="modal-content">
@@ -235,6 +238,9 @@
   function closeCustomerIdModal() {
     var modal = document.getElementById('customerIdModal');
     modal.style.display = 'none';
+  }
+  function goToEmployeePage() {
+    window.location.href = 'EmployeePage.html';
   }
 </script>
 </body>

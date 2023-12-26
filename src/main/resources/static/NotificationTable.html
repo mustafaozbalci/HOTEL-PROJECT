@@ -128,6 +128,14 @@
     </table>
   </div>
 </div>
+<div id="deactivationModal" class="modal">
+  <div class="modal-content">
+    <h2>Deactivation Options</h2>
+    <button onclick="confirmDeactivation()">Confirm</button>
+    <button onclick="rejectDeactivation()">Reject</button>
+    <button onclick="cancelDeactivation()">Cancel</button>
+  </div>
+</div>
 
 <!-- Notification table -->
 <table>
@@ -193,38 +201,16 @@
   }
 
   function deactivateNotification(notificationId, row) {
-    var employeeId = prompt("Enter Employee ID:");
+    // Display the deactivation options modal
+    var modal = document.getElementById('deactivationModal');
+    modal.style.display = 'block';
 
-    if (employeeId !== null && employeeId !== "") {
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "/process-request/deactivate-notification", true);
-      xhr.setRequestHeader("Content-Type", "application/json");
+    // Set a custom attribute to store the notification ID
+    modal.setAttribute('data-notification-id', notificationId);
 
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            row.cells[2].innerHTML = "PASSIVE";
-            alert("Notification deactivated successfully");
-          } else {
-            alert("Error during deactivation. Server status: " + xhr.status);
-          }
-        }
-      };
-
-      var data = {
-        notificationId: notificationId,
-        employeeId: employeeId
-      };
-
-      xhr.send(JSON.stringify(data));
-    } else {
-      alert("Deactivation canceled or invalid Employee ID");
-    }
+    // Set a reference to the row to update it after deactivation
+    modal.setAttribute('data-row-index', row.rowIndex);
   }
-
-  window.onload = function () {
-    refreshNotifications();
-  };
   function showHistory() {
     var modal = document.getElementById('historyModal');
     modal.style.display = 'block';
@@ -291,6 +277,65 @@
 
     var data = JSON.stringify(roomNumber);
     xhr.send(data);
+  }
+  function confirmDeactivation() {
+    var modal = document.getElementById('deactivationModal');
+    var notificationId = modal.getAttribute('data-notification-id');
+    var rowIndex = modal.getAttribute('data-row-index');
+
+    // Send a request to confirm deactivation
+    sendDeactivationRequest(notificationId, "confirm", rowIndex);
+
+    // Close the deactivation options modal
+    modal.style.display = 'none';
+  }
+
+  function rejectDeactivation() {
+    var modal = document.getElementById('deactivationModal');
+    var notificationId = modal.getAttribute('data-notification-id');
+    var rowIndex = modal.getAttribute('data-row-index');
+
+    // Send a request to reject deactivation
+    sendDeactivationRequest(notificationId, "reject", rowIndex);
+
+    // Close the deactivation options modal
+    modal.style.display = 'none';
+  }
+
+  function cancelDeactivation() {
+    // Close the deactivation options modal without taking any action
+    var modal = document.getElementById('deactivationModal');
+    modal.style.display = 'none';
+  }
+
+  function sendDeactivationRequest(notificationId, action, rowIndex) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/process-request/deactivate-notification", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          // Update the row in the table based on the action
+          if (action === "confirm") {
+            document.getElementById('notificationTableBody').deleteRow(rowIndex - 1);
+            alert("Notification deactivated successfully");
+          } else if (action === "reject") {
+            // Handle rejection action if needed
+            alert("Notification rejection handled successfully");
+          }
+        } else {
+          alert("Error during deactivation. Server status: " + xhr.status);
+        }
+      }
+    };
+
+    var data = {
+      notificationId: notificationId,
+      action: action
+    };
+
+    xhr.send(JSON.stringify(data));
   }
 
 

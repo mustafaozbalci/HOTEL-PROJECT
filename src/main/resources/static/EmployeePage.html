@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Otel Çalışanları Sayfası</title>
+    <title>Hotel Staff Page</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -11,58 +12,79 @@
             padding: 0;
             font-family: Arial, sans-serif;
             overflow: hidden;
-            background-color: #f1f1f1; /* Background color */
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         h1 {
             text-align: center;
             padding: 20px;
-            background-color: #333; /* Header background color */
-            color: #fff; /* Header text color */
+            background-color: #333;
+            color: #fff;
         }
 
         a {
             display: block;
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             color: #fff;
-            background-color: #4CAF50; /* Button background color */
+            background-color: #4CAF50;
             text-decoration: none;
-            border-radius: 5px;
-            margin: 10px auto;
-            width: 60%;
+            border-radius: 8px;
+            margin: 20px auto;
+            width: 70%;
         }
 
         a:hover {
-            background-color: #45a049; /* Button hover color */
+            background-color: #45a049;
         }
 
         .icon {
             font-size: 24px;
             margin-right: 10px;
         }
-
     </style>
 </head>
-<body>
 
-<h1>Otel Çalışanları Sayfası</h1>
+<body>
+<div class="video-background">
+    <video autoplay muted loop>
+        <source src="videos/EmployeeHomePage.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<h1>Hotel Staff Page</h1>
 
 <a href="customerList.html">
-    <i class="icon fas fa-users"></i> Müşteri Listesi
+    <i class="icon fas fa-users"></i> Customer List
 </a>
 
 <a href="NotificationTable.html">
-    <i class="icon fas fa-bell"></i> Bildirim Tablosu
+    <i class="icon fas fa-bell"></i> Notification Table
 </a>
 
 <a href="rooms.html">
-    <i class="icon fas fa-bed"></i> Odalar
+    <i class="icon fas fa-bed"></i> Rooms
 </a>
 
 <a href="ReservationRequests.html">
-    <i class="icon fas fa-calendar-check"></i> Rezervasyon İstekleri
+    <i class="icon fas fa-calendar-check"></i> Reservation Requests
 </a>
-
 </body>
+
 </html>
