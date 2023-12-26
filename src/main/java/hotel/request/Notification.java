@@ -18,6 +18,6 @@ public class Notification {
     private Long notificationId;
 
     private String message;
-    private String status; // "ACTIVE" veya "PASSIVE" olabilir
+    private String status;
     private int roomNumber;
 }

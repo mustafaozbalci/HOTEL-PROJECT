@@ -26,8 +26,8 @@ public class Employee {
     @Column(name = "role")
     private String role; // e.g., "ADMIN", "RECEPTION", "SPA"
 
-    @Column(name = "inbox")
-    private String inbox;
+
+
 
 
 }

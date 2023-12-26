@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -96,4 +98,31 @@ public class NotificationController {
     }
 
 
+
+    @PostMapping("/place-menu-order")
+    public ResponseEntity<Map<String, String>> placeMenuOrder(@RequestBody CustomerRequest request) {
+        String responseMessage = processMenuOrder(request);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", responseMessage);
+        return ResponseEntity.ok(response);
+    }
+
+    private String processMenuOrder(CustomerRequest request) {
+        try {
+            // Burada sipariş bilgileri işlenir, örneğin veritabanına kaydedilebilir.
+
+            // Simulate request processing and save to the database
+            Notification notification = new Notification();
+            notification.setMessage("Received menu order: " + request.getProductName() +
+                    " - Quantity: " + request.getQuantity());
+            notification.setStatus("ACTIVE");
+            notification.setRoomNumber(request.getRoomNumber());
+            notificationRepository.save(notification);
+
+            return "Menu Order processed successfully";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error processing menu order. Please check server logs.";
+        }
+    }
 }

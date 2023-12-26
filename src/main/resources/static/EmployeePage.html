@@ -37,6 +37,20 @@
             color: #fff;
         }
 
+        .welcome-message {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .user-info {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
         a {
             display: block;
             text-align: center;
@@ -69,6 +83,8 @@
 </div>
 
 <h1>Hotel Staff Page</h1>
+<div class="welcome-message" id="employeeInfo"></div>
+<div class="user-info" id="userInfo"></div>
 
 <a href="customerList.html">
     <i class="icon fas fa-users"></i> Customer List
@@ -85,6 +101,28 @@
 <a href="ReservationRequests.html">
     <i class="icon fas fa-calendar-check"></i> Reservation Requests
 </a>
+<a href="EmployeeStockControl.html">
+    <i class="icon fas fa-cubes"></i> Check Stock Status
+</a>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var isLoggedIn = sessionStorage.getItem("isLoggedIn");
+
+        if (isLoggedIn) {
+            var username = sessionStorage.getItem("username");
+            var role = sessionStorage.getItem("role");
+
+            // Display the welcome message and user info on the page
+            $(".welcome-message").text("Welcome, " + username + " !");
+            $(".user-info").text("Username: " + username + " | Role: " + role);
+        } else {
+            console.log("User not logged in. Redirecting...");
+            window.location.href = "LoginPage.html";
+        }
+    });
+</script>
 </body>
 
 </html>

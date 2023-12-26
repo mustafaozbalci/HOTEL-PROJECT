@@ -1,101 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Müşteri Girişi</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Müşteri Girişi</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
 
-    .container {
-      text-align: center;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      box-sizing: border-box;
-    }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
 
-    button {
-      background-color: #4caf50;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-    button:hover {
-      background-color: #45a049;
-    }
+        button:hover {
+            background-color: #45a049;
+        }
 
-    .error-message {
-      color: #ff0000;
-    }
-  </style>
+        .error-message {
+            color: #ff0000;
+        }
+
+        .back-to-home-button {
+          background-color: #4caf50;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-top: 20px;
+        }
+
+        .back-to-home-button:hover {
+          background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-  <h1>Müşteri Girişi</h1>
-  <label for="tcKimlikNo">TC Kimlik No:</label>
-  <input type="text" id="tcKimlikNo" placeholder="TC Kimlik No">
-  <button onclick="login()">Giriş Yap</button>
-  <p id="errorMessage" class="error-message"></p>
+    <h1>Müşteri Girişi</h1>
+    <label for="tcKimlikNo">TC Kimlik No:</label>
+    <input type="text" id="tcKimlikNo" placeholder="TC Kimlik No">
+    <button onclick="login()">Giriş Yap</button>
+    <p id="errorMessage" class="error-message"></p>
+  <button class="back-to-home-button" onclick="backToHome()">HOME</button>
 </div>
+
+
 <script>
-  function login() {
-    var tcKimlikNo = document.getElementById("tcKimlikNo").value;
+    function login() {
+        var tcKimlikNo = document.getElementById("tcKimlikNo").value;
 
-    axios.get('/api/customer/check/' + tcKimlikNo)
+        axios.get('/api/customer/check/' + tcKimlikNo)
             .then(function (response) {
-              // Başarılı giriş
-              console.log(response.data);
-              document.getElementById("errorMessage").innerText = "";
+                // Başarılı giriş
+                console.log(response.data);
+                document.getElementById("errorMessage").innerText = "";
 
-              // Müşteri bilgilerini al
-              var customerInfo = response.data;
+                // Müşteri bilgilerini al
+                var customerInfo = response.data;
 
-              // Sayfaya geçiş yap
-              window.location.href = '/CustomerPage.html?' +
-                      'customerName=' + customerInfo.customerName +
-                      '&customerSurname=' + customerInfo.customerSurname +
-                      '&roomNumber=' + customerInfo.roomNumber +
-                      '&birthDate=' + customerInfo.birthDate +
-                      '&sex=' + customerInfo.sex +
-                      '&entryDate=' + customerInfo.entryDate +
-                      '&exitDate=' + customerInfo.exitDate +
-                      '&customerTC=' + customerInfo.customerTC +
-                      '&email=' + customerInfo.email +
-                      '&phoneNumber=' + customerInfo.phoneNumber;
+                // Sayfaya geçiş yap
+                window.location.href = '/CustomerPage.html?' +
+                    'customerName=' + customerInfo.customerName +
+                    '&customerSurname=' + customerInfo.customerSurname +
+                    '&roomNumber=' + customerInfo.roomNumber +
+                    '&birthDate=' + customerInfo.birthDate +
+                    '&sex=' + customerInfo.sex +
+                    '&entryDate=' + customerInfo.entryDate +
+                    '&exitDate=' + customerInfo.exitDate +
+                    '&customerTC=' + customerInfo.customerTC +
+                    '&email=' + customerInfo.email +
+                    '&phoneNumber=' + customerInfo.phoneNumber;
             })
             .catch(function (error) {
-              // Hata durumu
-              console.error(error.response.data);
-              document.getElementById("errorMessage").innerText = "Müşteri bulunamadı. TC Kimlik No kontrol ediniz.";
+                // Hata durumu
+                console.error(error.response.data);
+                document.getElementById("errorMessage").innerText = "Müşteri bulunamadı. TC Kimlik No kontrol ediniz.";
             });
-  }
+    }
+
+    function backToHome() {
+        window.location.href = "FirstPage.html";
+    }
 </script>
 
 </body>

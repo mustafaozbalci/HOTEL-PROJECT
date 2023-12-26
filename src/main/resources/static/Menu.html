@@ -25,85 +25,323 @@
         }
 
         .backButton {
+            display: inline-block;
             cursor: pointer;
             color: #333;
-            font-size: 16px;
+            font-size: 18px;
             margin-bottom: 20px;
             text-decoration: underline;
+            transition: color 0.3s;
+        }
+
+        .backButton:hover {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .redirectButton {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .redirectButton:hover {
+            background-color: #45a049;
+        }
+
+        /* Optional: Adjust styles for the h1 heading */
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .orderButton {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .orderButton:hover {
+            background-color: #45a049;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 18px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
 
-<div class="backButton" onclick="goBackToPage('CustomerRequestPage.html')">Back to Request Page</div>
-<div class="backButton" onclick="goBackToPage('CustomerPage.html')">Back to Home Page</div>
 
 <h1>Hotel Menu</h1>
 
+<!-- Italian Pasta Menu Item -->
 <div class="menu-item">
     <h2>Italian Pasta</h2>
     <p>Delicious Italian pasta served with homemade marinara sauce and fresh herbs.</p>
     <p class="price">$15.99</p>
+    <button class="orderButton" onclick="placeOrder('Italian Pasta', 15.99)">Order $15.99</button>
+    <div>
+        <button onclick="decrementQuantity('Italian Pasta')">-</button>
+        <span id="Italian Pasta-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Italian Pasta')">+</button>
+    </div>
 </div>
 
+
+<!-- Grilled Salmon Menu Item -->
 <div class="menu-item">
     <h2>Grilled Salmon</h2>
     <p>Healthy option with grilled salmon fillet served with fresh lemon and olive oil.</p>
     <p class="price">$18.99</p>
+    <button class="orderButton" onclick="placeOrder('Grilled Salmon', 18.99)">Order $18.99</button>
+    <div>
+        <button onclick="decrementQuantity('Grilled Salmon')">-</button>
+        <span id="Grilled Salmon-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Grilled Salmon')">+</button>
+    </div>
 </div>
 
+<!-- Breakfast Burger Menu Item -->
 <div class="menu-item">
     <h2>Breakfast Burger</h2>
     <p>Delicious breakfast burger with crispy outer shell, egg, cheese, tomato, and bacon.</p>
     <p class="price">$12.99</p>
+    <button class="orderButton" onclick="placeOrder('Breakfast Burger', 12.99)">Order $12.99</button>
+    <div>
+        <button onclick="decrementQuantity('Breakfast Burger')">-</button>
+        <span id="Breakfast Burger-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Breakfast Burger')">+</button>
+    </div>
 </div>
 
+<!-- Fruit Smoothie Menu Item -->
 <div class="menu-item">
     <h2>Fruit Smoothie</h2>
     <p>Refreshing fruit smoothie made with a variety of fresh fruits.</p>
     <p class="price">$7.99</p>
+    <button class="orderButton" onclick="placeOrder('Fruit Smoothie', 7.99)">Order $7.99</button>
+    <div>
+        <button onclick="decrementQuantity('Fruit Smoothie')">-</button>
+        <span id="Fruit Smoothie-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Fruit Smoothie')">+</button>
+    </div>
 </div>
 
+<!-- Caesar Salad Menu Item -->
 <div class="menu-item">
     <h2>Caesar Salad</h2>
     <p>Classic Caesar salad with crisp romaine lettuce, croutons, Parmesan cheese, and Caesar dressing.</p>
     <p class="price">$9.99</p>
+    <button class="orderButton" onclick="placeOrder('Caesar Salad', 9.99)">Order $9.99</button>
+    <div>
+        <button onclick="decrementQuantity('Caesar Salad')">-</button>
+        <span id="Caesar Salad-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Caesar Salad')">+</button>
+    </div>
 </div>
 
+<!-- Margarita Pizza Menu Item -->
 <div class="menu-item">
     <h2>Margarita Pizza</h2>
     <p>Traditional Margarita pizza topped with fresh tomatoes, mozzarella, and basil.</p>
     <p class="price">$14.99</p>
+    <button class="orderButton" onclick="placeOrder('Margarita Pizza', 14.99)">Order $14.99</button>
+    <div>
+        <button onclick="decrementQuantity('Margarita Pizza')">-</button>
+        <span id="Margarita Pizza-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Margarita Pizza')">+</button>
+    </div>
 </div>
 
+<!-- Vegetarian Wrap Menu Item -->
 <div class="menu-item">
     <h2>Vegetarian Wrap</h2>
     <p>Healthy vegetarian wrap with mixed vegetables, hummus, and whole wheat tortilla.</p>
     <p class="price">$11.99</p>
+    <button class="orderButton" onclick="placeOrder('Vegetarian Wrap', 11.99)">Order $11.99</button>
+    <div>
+        <button onclick="decrementQuantity('Vegetarian Wrap')">-</button>
+        <span id="Vegetarian Wrap-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Vegetarian Wrap')">+</button>
+    </div>
 </div>
 
+<!-- Chocolate Brownie Sundae Menu Item -->
 <div class="menu-item">
     <h2>Chocolate Brownie Sundae</h2>
     <p>Indulgent chocolate brownie sundae with vanilla ice cream, chocolate sauce, and whipped cream.</p>
     <p class="price">$8.99</p>
+    <button class="orderButton" onclick="placeOrder('Chocolate Brownie Sundae', 8.99)">Order $8.99</button>
+    <div>
+        <button onclick="decrementQuantity('Chocolate Brownie Sundae')">-</button>
+        <span id="Chocolate Brownie Sundae-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Chocolate Brownie Sundae')">+</button>
+    </div>
 </div>
 
+<!-- Chicken Alfredo Menu Item -->
 <div class="menu-item">
     <h2>Chicken Alfredo</h2>
     <p>Classic Chicken Alfredo pasta with creamy Alfredo sauce and grilled chicken.</p>
     <p class="price">$16.99</p>
+    <button class="orderButton" onclick="placeOrder('Chicken Alfredo', 16.99)">Order $16.99</button>
+    <div>
+        <button onclick="decrementQuantity('Chicken Alfredo')">-</button>
+        <span id="Chicken Alfredo-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Chicken Alfredo')">+</button>
+    </div>
 </div>
 
+<!-- Green Detox Smoothie Menu Item -->
 <div class="menu-item">
     <h2>Green Detox Smoothie</h2>
     <p>Detoxifying green smoothie with spinach, kale, pineapple, and coconut water.</p>
     <p class="price">$6.99</p>
+    <button class="orderButton" onclick="placeOrder('Green Detox Smoothie', 6.99)">Order $6.99</button>
+    <div>
+        <button onclick="decrementQuantity('Green Detox Smoothie')">-</button>
+        <span id="Green Detox Smoothie-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Green Detox Smoothie')">+</button>
+    </div>
 </div>
-
+<a class="redirectButton" href="CustomerRequestPage.html">Go to Request Page</a>
+<a class="redirectButton" href="CustomerPage.html">Go to Home Page</a>
 <script>
+    var quantityCounters = {}; // Use an object to store individual counters for each product
+
     function goBackToPage(page) {
         window.location.href = page;
     }
+
+    function incrementQuantity(productName) {
+        // Increment the quantity for the specific product
+        quantityCounters[productName] = (quantityCounters[productName] || 0) + 1;
+        updateQuantityDisplay(productName);
+    }
+
+    function decrementQuantity(productName) {
+        // Ensure the quantity is not negative
+        if (quantityCounters[productName] > 1) {
+            quantityCounters[productName]--;
+            updateQuantityDisplay(productName);
+        }
+    }
+
+    function updateQuantityDisplay(productName) {
+        // Update the display with the current quantity for the specific product
+        document.getElementById(productName + '-quantityDisplay').innerText = quantityCounters[productName];
+    }
+
+    function placeOrder(productName, price) {
+        var total = (quantityCounters[productName] * price).toFixed(2);
+
+        var roomNumber = sessionStorage.getItem('roomNumber');
+
+        var requestData = {
+            productName: productName,
+            quantity: quantityCounters[productName],
+            roomNumber: roomNumber
+        };
+        decreaseStock(productName);
+
+        fetch('http://localhost:8080/process-request/place-menu-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert("Order placed: " + productName + " - Quantity: " + quantityCounters[productName] + " - Total Price: $" + total);
+                console.log(data.message); // Access the 'message' property of the response
+            })
+
+            .catch(error => {
+                alert("Error placing order: " + error.message);
+                console.error('Error:', error);
+            });
+    }
+    function decreaseStock(productName) {
+        var requestData = {
+            productName: productName,
+            quantity: quantityCounters[productName]
+        };
+
+        fetch('http://localhost:8080/api/stock/updateStock', {
+            method: 'POST', // Değişiklik: 'PATCH' yerine 'POST' kullanıyoruz
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    console.log("Stock decreased for " + productName);
+                    // İsteğe bağlı olarak UI'yi güncelleyebilir veya başka işlemler gerçekleştirebilirsiniz
+                } else {
+                    console.error("Error decreasing stock: " + data.message);
+                    // Hata durumunda mesaj gösterme veya başka işlemler gerçekleştirme
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Hata durumunda mesaj gösterme veya başka işlemler gerçekleştirme
+            });
+    }
+
+
+
 </script>
 
 </body>
