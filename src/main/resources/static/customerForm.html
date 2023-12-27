@@ -1,194 +1,197 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
 
-    .video-background {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      overflow: hidden;
-      z-index: -1;
-    }
+        .video-background {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
 
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    .center {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #fbfbfb;
-      height: 100vh;
-      z-index: 1; /* Ensure that the form is on top of the video */
-    }
-    .form-container {
-      max-width: 400px;
-      margin: 20px auto;
-      background: #080808;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(66, 66, 66, 0.5);
-    }
+        .center {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fbfbfb;
+            height: 100vh;
+            z-index: 1; /* Ensure that the form is on top of the video */
+        }
 
-    .form-container label {
-      display: block;
-      margin-bottom: 10px;
-    }
+        .form-container {
+            max-width: 400px;
+            margin: 20px auto;
+            background: #080808;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(66, 66, 66, 0.5);
+        }
 
-    .form-container input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      box-sizing: border-box;
-    }
+        .form-container label {
+            display: block;
+            margin-bottom: 10px;
+        }
 
-    .form-container button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
 
-    .form-container button:hover {
-      background-color: #45a049;
-    }
-    .back-to-home-button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      background-color: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-    }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-    .back-to-home-button:hover {
-      background-color: #45a049;
-    }
-  </style>
-  <title>Hoşgeldiniz - Rezervasyon Oluşturun</title>
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .back-to-home-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .back-to-home-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <title>Hoşgeldiniz - Rezervasyon Oluşturun</title>
 </head>
 <body>
 <div class="video-background">
 
-  <video class="video-background" autoplay muted loop>
-    <source src="videos/HotelVideos1.mp4" type="video/mp4">
-  </video>
+    <video class="video-background" autoplay muted loop>
+        <source src="videos/HotelVideos1.mp4" type="video/mp4">
+    </video>
 
 </div>
 <div class="center">
-  <div class="form-container">
-    <h2>Welcome</h2>
-    <p>Please fill out the fields below to create a reservation.</p>
-    <form id="customerForm" onsubmit="submitForm(event)">
-      <label for="customerName">First Name:</label>
-      <input type="text" id="customerName" name="customerName" required>
+    <div class="form-container">
+        <h2>Welcome</h2>
+        <p>Please fill out the fields below to create a reservation.</p>
+        <form id="customerForm" onsubmit="submitForm(event)">
+            <label for="customerName">First Name:</label>
+            <input type="text" id="customerName" name="customerName" required>
 
-      <label for="customerSurname">Last Name:</label>
-      <input type="text" id="customerSurname" name="customerSurname" required>
+            <label for="customerSurname">Last Name:</label>
+            <input type="text" id="customerSurname" name="customerSurname" required>
 
-      <label for="birthDate">Date of Birth:</label>
-      <input type="date" id="birthDate" name="birthDate" required>
+            <label for="birthDate">Date of Birth:</label>
+            <input type="date" id="birthDate" name="birthDate" required>
 
-      <label for="sex">Gender:</label>
-      <select id="sex" name="sex" required>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
+            <label for="sex">Gender:</label>
+            <select id="sex" name="sex" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
 
-      <label for="entryDate">Entry Date:</label>
-      <input type="date" id="entryDate" name="entryDate" required>
+            <label for="entryDate">Entry Date:</label>
+            <input type="date" id="entryDate" name="entryDate" required>
 
-      <label for="exitDate">Exit Date:</label>
-      <input type="date" id="exitDate" name="exitDate" required>
+            <label for="exitDate">Exit Date:</label>
+            <input type="date" id="exitDate" name="exitDate" required>
 
-      <label for="customerTC">ID Number:</label>
-      <input type="text" id="customerTC" name="customerTC" required>
+            <label for="customerTC">ID Number:</label>
+            <input type="text" id="customerTC" name="customerTC" required>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
-      <label for="phoneNumber">Phone Number:</label>
-      <input type="tel" id="phoneNumber" name="phoneNumber" required>
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" required>
 
-      <button type="submit">Create Reservation</button>
-    </form>
-    <button class="back-to-home-button" onclick="backToHome()">HOME</button>
+            <button type="submit">Create Reservation</button>
+        </form>
+        <button class="back-to-home-button" onclick="backToHome()">HOME</button>
 
-  </div>
+    </div>
 </div>
 <script>
-  function submitForm(event) {
-    event.preventDefault(); // Formun normal gönderimini engelle
+    function submitForm(event) {
+        event.preventDefault(); // Formun normal gönderimini engelle
 
-    // Müşteri bilgilerini JSON formatında oluştur
-    var customerData = {
-      customerName: document.getElementById('customerName').value,
-      customerSurname: document.getElementById('customerSurname').value,
-      birthDate: document.getElementById('birthDate').value,
-      sex: document.getElementById('sex').value,
-      entryDate: document.getElementById('entryDate').value,
-      exitDate: document.getElementById('exitDate').value,
-      customerTC: document.getElementById('customerTC').value,
-      email: document.getElementById('email').value,
-      phoneNumber: document.getElementById('phoneNumber').value
-    };
+        // Müşteri bilgilerini JSON formatında oluştur
+        var customerData = {
+            customerName: document.getElementById('customerName').value,
+            customerSurname: document.getElementById('customerSurname').value,
+            birthDate: document.getElementById('birthDate').value,
+            sex: document.getElementById('sex').value,
+            entryDate: document.getElementById('entryDate').value,
+            exitDate: document.getElementById('exitDate').value,
+            customerTC: document.getElementById('customerTC').value,
+            email: document.getElementById('email').value,
+            phoneNumber: document.getElementById('phoneNumber').value
+        };
 
-    // AJAX isteği gönder
-    $.ajax({
-      type: 'POST',
-      url: '/api/customer',
-      contentType: 'application/json', // JSON içeriğini belirt
-      data: JSON.stringify(customerData),
-      success: function (response) {
-        console.log('Customer created successfully:', response);
-        // İhtiyaç duyulursa ek işlemler gerçekleştirilebilir
+        // AJAX isteği gönder
+        $.ajax({
+            type: 'POST',
+            url: '/api/customer',
+            contentType: 'application/json', // JSON içeriğini belirt
+            data: JSON.stringify(customerData),
+            success: function (response) {
+                console.log('Customer created successfully:', response);
+                // İhtiyaç duyulursa ek işlemler gerçekleştirilebilir
 
-        // Başarı mesajını göster ve sayfayı yenile
-        showSuccessAlert();
-        resetForm();
-      },
-      error: function (xhr, status, error) {
-        console.error('Error creating customer:', error);
-        // Hata durumunu uygun şekilde ele al
-      }
-    });
-  }
+                // Başarı mesajını göster ve sayfayı yenile
+                showSuccessAlert();
+                resetForm();
+            },
+            error: function (xhr, status, error) {
+                console.error('Error creating customer:', error);
+                // Hata durumunu uygun şekilde ele al
+            }
+        });
+    }
 
-  // Başarı mesajını gösteren fonksiyon
-  function showSuccessAlert() {
-    console.log('Müşteri başarıyla oluşturuldu!');
-    alert('Müşteri başarıyla oluşturuldu!');
-  }
+    // Başarı mesajını gösteren fonksiyon
+    function showSuccessAlert() {
+        console.log('Müşteri başarıyla oluşturuldu!');
+        alert('Müşteri başarıyla oluşturuldu!');
+    }
 
-  // Formu sıfırlayan fonksiyon
-  function resetForm() {
-    document.getElementById('customerForm').reset();
-  }
-  function backToHome() {
-    window.location.href = "FirstPage.html";
-  }
+    // Formu sıfırlayan fonksiyon
+    function resetForm() {
+        document.getElementById('customerForm').reset();
+    }
+
+    function backToHome() {
+        window.location.href = "FirstPage.html";
+    }
 </script>
 </body>
 </html>

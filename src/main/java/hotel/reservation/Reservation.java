@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+
 @Entity
-@Table(name = "reservation", schema = "hotel")
+@Table(name = "reservation", schema = "public")
 @Data
 public class Reservation {
     @Id

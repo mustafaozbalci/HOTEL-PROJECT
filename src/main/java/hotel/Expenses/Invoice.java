@@ -1,11 +1,12 @@
 package hotel.Expenses;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "invoice", schema = "hotel")
+@Table(name = "invoice", schema = "public")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

@@ -95,21 +95,20 @@ public class NotificationController {
         List<Notification> historyNotifications = notificationRepository.findByStatusIn(List.of("PASSIVE", "REJECTED"));
         return new ResponseEntity<>(historyNotifications, HttpStatus.OK);
     }
+
     @GetMapping("/active-notifications")
     public ResponseEntity<List<Notification>> getActiveAndRejectedNotificationsByRoomNumber(@RequestParam int roomNumber) {
         List<Notification> activeAndRejectedNotifications =
                 notificationRepository.findByStatusInAndRoomNumber(List.of("ACTIVE", "REJECTED"), roomNumber);
         return new ResponseEntity<>(activeAndRejectedNotifications, HttpStatus.OK);
     }
+
     @GetMapping("/passive-notifications")
     public ResponseEntity<List<Notification>> getPassiveNotificationsByRoomNumber(@RequestParam int roomNumber) {
         List<Notification> activeAndRejectedNotifications =
                 notificationRepository.findByStatusAndRoomNumber("PASSIVE", roomNumber);
         return new ResponseEntity<>(activeAndRejectedNotifications, HttpStatus.OK);
     }
-
-
-
 
 
     @PostMapping("/place-menu-order")
@@ -128,7 +127,6 @@ public class NotificationController {
     }
 
 
-
     private Long processMenuOrder(CustomerRequest request) {
         try {
             // Simulate request processing and save to the database
@@ -144,6 +142,7 @@ public class NotificationController {
         }
         return null;
     }
+
     // Add a new endpoint to save invoice information
     @PostMapping("/save-invoice")
     public ResponseEntity<Map<String, String>> saveInvoice(@RequestBody InvoiceRequest invoiceRequest) {

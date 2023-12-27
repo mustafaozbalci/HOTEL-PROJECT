@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "customer", schema = "hotel")
+@Table(name = "customer", schema = "public")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,14 +34,8 @@ public class Customer {
 
     @Column(name = "room_number")
     private int roomNumber;
-    public void setRoomNumber(String newRoomNumber) {
-        try {
-            this.roomNumber = Integer.parseInt(newRoomNumber);
-        } catch (NumberFormatException e) {
-            // Handle the case where newRoomNumber is not a valid integer
-            throw new IllegalArgumentException("Invalid room number format: " + newRoomNumber, e);
-        }
-    }
+
+
 
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
@@ -67,4 +61,12 @@ public class Customer {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+    public void setRoomNumber(String newRoomNumber) {
+        try {
+            this.roomNumber = Integer.parseInt(newRoomNumber);
+        } catch (NumberFormatException e) {
+            // Handle the case where newRoomNumber is not a valid integer
+            throw new IllegalArgumentException("Invalid room number format: " + newRoomNumber, e);
+        }
+    }
 }

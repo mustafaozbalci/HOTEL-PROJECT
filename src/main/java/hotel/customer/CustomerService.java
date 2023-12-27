@@ -52,10 +52,6 @@ public class CustomerService {
         return customerRepository.findByCustomerTC(customerTC);
     }
 
-    public Customer saveCustomer(Customer customer) {
-        return customerRepository.save(customer);
-    }
-
     public String updateRoomNumber(Long customerId, String newRoomNumber) {
         Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
 

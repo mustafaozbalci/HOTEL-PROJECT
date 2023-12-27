@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "employee", schema = "hotel")
+@Table(name = "employee", schema = "public")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,9 +25,5 @@ public class Employee {
 
     @Column(name = "role")
     private String role; // e.g., "ADMIN", "RECEPTION", "SPA"
-
-
-
-
 
 }

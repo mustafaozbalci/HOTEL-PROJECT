@@ -28,6 +28,7 @@ public class CustomerController {
             return ResponseEntity.noContent().build();
         }
     }
+
     @GetMapping("/waitingReservation")
     public ResponseEntity<List<Customer>> waitingCustomers() {
         List<Customer> customers = customerService.getAllCustomers();
@@ -86,6 +87,7 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Müşteri bulunamadı. TC Kimlik No kontrol ediniz.");
         }
     }
+
     @PutMapping("/updateRoomNumber/{customerId}")
     public ResponseEntity<String> updateRoomNumber(
             @PathVariable Long customerId,

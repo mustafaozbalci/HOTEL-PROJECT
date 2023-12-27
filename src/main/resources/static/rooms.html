@@ -1,155 +1,155 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hotel Rooms</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Rooms</title>
 </head>
 <body>
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-    background-color: #f1f1f1; /* Background color */
-  }
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+        background-color: #f1f1f1; /* Background color */
+    }
 
-  h1 {
-    text-align: center;
-    padding: 20px;
-    background-color: #333; /* Header background color */
-    color: #fff; /* Header text color */
-  }
+    h1 {
+        text-align: center;
+        padding: 20px;
+        background-color: #333; /* Header background color */
+        color: #fff; /* Header text color */
+    }
 
-  button {
-    background-color: #4CAF50; /* Button background color */
-    color: white;
-    padding: 10px 15px;
-    margin: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+    button {
+        background-color: #4CAF50; /* Button background color */
+        color: white;
+        padding: 10px 15px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-  button:hover {
-    background-color: #45a049; /* Button hover color */
-  }
+    button:hover {
+        background-color: #45a049; /* Button hover color */
+    }
 
-  table {
-    width: 80%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    background-color: #fff; /* Table background color */
-  }
+    table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #fff; /* Table background color */
+    }
 
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
 
-  th {
-    background-color: #4CAF50; /* Header background color */
-    color: white;
-  }
+    th {
+        background-color: #4CAF50; /* Header background color */
+        color: white;
+    }
 
-  tr:hover {
-    background-color: #f5f5f5; /* Row hover color */
-  }
+    tr:hover {
+        background-color: #f5f5f5; /* Row hover color */
+    }
 
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.7);
-  }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
 
-  .modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-  }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
 
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
 
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
 </style>
 <h2>Hotel Rooms</h2>
 
 <table border="1">
-  <thead>
-  <tr>
-    <th>Room ID</th>
-    <th>Room Number</th>
-    <th>Capacity</th>
-    <th>Price</th>
-    <th>Type</th>
-    <th>Is Available</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody id="roomTableBody">
-  <!-- Room data will be loaded here dynamically -->
-  </tbody>
+    <thead>
+    <tr>
+        <th>Room ID</th>
+        <th>Room Number</th>
+        <th>Capacity</th>
+        <th>Price</th>
+        <th>Type</th>
+        <th>Is Available</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="roomTableBody">
+    <!-- Room data will be loaded here dynamically -->
+    </tbody>
 </table>
 
 <!-- Edit Modal -->
 <div id="editModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeEditModal()">&times;</span>
-    <h3>Edit Price</h3>
-    <label for="editPrice">New Price:</label>
-    <input type="number" id="editPrice" step="0.01" required>
-    <button id="updatePriceButton">Update Price</button>
+    <div class="modal-content">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+        <h3>Edit Price</h3>
+        <label for="editPrice">New Price:</label>
+        <input type="number" id="editPrice" step="0.01" required>
+        <button id="updatePriceButton">Update Price</button>
 
-  </div>
+    </div>
 </div>
 <button onClick="goToEmployeePage()">Back to Employee Page</button>
 
 <!-- Customer ID Modal -->
 <div id="customerIdModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeCustomerIdModal()">&times;</span>
-    <h3>Enter Customer TC</h3>
-    <label for="customerTC">Customer TC:</label>
-    <input type="text" id="customerTC" required>
-    <button id="confirmCustomerTCButton">Confirm</button>
-  </div>
+    <div class="modal-content">
+        <span class="close" onclick="closeCustomerIdModal()">&times;</span>
+        <h3>Enter Customer TC</h3>
+        <label for="customerTC">Customer TC:</label>
+        <input type="text" id="customerTC" required>
+        <button id="confirmCustomerTCButton">Confirm</button>
+    </div>
 </div>
 
 <script th:inline="javascript">
-  document.addEventListener('DOMContentLoaded', function () {
-    fetch('/rooms')
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/rooms')
             .then(response => response.json())
             .then(data => updateRoomTable(data));
-  });
+    });
 
-  function updateRoomTable(rooms) {
-    var tableBody = document.getElementById('roomTableBody');
-    tableBody.innerHTML = '';
+    function updateRoomTable(rooms) {
+        var tableBody = document.getElementById('roomTableBody');
+        tableBody.innerHTML = '';
 
-    rooms.forEach(function (room) {
-      var row = document.createElement('tr');
-      row.innerHTML = `
+        rooms.forEach(function (room) {
+            var row = document.createElement('tr');
+            row.innerHTML = `
             <td>${room.roomId}</td>
             <td>${room.roomNumber}</td>
             <td>${room.capacity}</td>
@@ -162,87 +162,88 @@
                 <button onclick="openCustomerIdModal(${room.roomId})">Enter Customer ID</button>
             </td>
         `;
-      tableBody.appendChild(row);
-    });
-  }
+            tableBody.appendChild(row);
+        });
+    }
 
 
-  function openEditModal(roomId, currentPrice) {
-    var modal = document.getElementById('editModal');
-    var priceInput = document.getElementById('editPrice');
-    priceInput.value = currentPrice;
+    function openEditModal(roomId, currentPrice) {
+        var modal = document.getElementById('editModal');
+        var priceInput = document.getElementById('editPrice');
+        priceInput.value = currentPrice;
 
-    var updatePriceButton = document.getElementById('updatePriceButton');
-    updatePriceButton.onclick = function () {
-      window.location.reload(true);
+        var updatePriceButton = document.getElementById('updatePriceButton');
+        updatePriceButton.onclick = function () {
+            window.location.reload(true);
 
-      var newPrice = parseFloat(priceInput.value);
+            var newPrice = parseFloat(priceInput.value);
 
-      // Sunucuya güncelleme isteği gönder (fetch kullanarak)
-      fetch(`/rooms/updatePrice?roomId=${roomId}&newPrice=${newPrice}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ newPrice: newPrice }),
-      })
-              .then(response => response.json())
-              .then(data => {
-                console.log('Price updated successfully', data);
+            // Sunucuya güncelleme isteği gönder (fetch kullanarak)
+            fetch(`/rooms/updatePrice?roomId=${roomId}&newPrice=${newPrice}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({newPrice: newPrice}),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Price updated successfully', data);
 
-                // Eğer başarıyla güncellendiyse, sayfayı yenile
-                window.location.reload(true);
-              })
-              .catch(error => console.error('Error updating price', error));
-    };
+                    // Eğer başarıyla güncellendiyse, sayfayı yenile
+                    window.location.reload(true);
+                })
+                .catch(error => console.error('Error updating price', error));
+        };
 
-    modal.style.display = 'block';
-  }
+        modal.style.display = 'block';
+    }
 
-  function openCustomerIdModal(roomId) {
-    var modal = document.getElementById('customerIdModal');
-    var customerTCInput = document.getElementById('customerTC');
-    var confirmCustomerTCButton = document.getElementById('confirmCustomerTCButton');
+    function openCustomerIdModal(roomId) {
+        var modal = document.getElementById('customerIdModal');
+        var customerTCInput = document.getElementById('customerTC');
+        var confirmCustomerTCButton = document.getElementById('confirmCustomerTCButton');
 
-    confirmCustomerTCButton.onclick = function () {
-      var customerTC = customerTCInput.value;
+        confirmCustomerTCButton.onclick = function () {
+            var customerTC = customerTCInput.value;
 
-      // Sunucuya müşteri TC güncelleme isteği gönder (fetch kullanarak)
-      fetch(`/rooms/updateCustomerTC?roomId=${roomId}&customerTC=${customerTC}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-              .then(response => response.json())
-              .then(data => {
-                console.log('Customer TC updated successfully', data);
+            // Sunucuya müşteri TC güncelleme isteği gönder (fetch kullanarak)
+            fetch(`/rooms/updateCustomerTC?roomId=${roomId}&customerTC=${customerTC}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Customer TC updated successfully', data);
 
-                // Eğer başarıyla güncellendiyse, modal penceresini kapat
-                modal.style.display = 'none';
-                // Odaları tekrar yükle
-                fetch('/rooms')
+                    // Eğer başarıyla güncellendiyse, modal penceresini kapat
+                    modal.style.display = 'none';
+                    // Odaları tekrar yükle
+                    fetch('/rooms')
                         .then(response => response.json())
                         .then(data => updateRoomTable(data));
-              })
-              .catch(error => console.error('Error updating customer TC', error));
-    };
+                })
+                .catch(error => console.error('Error updating customer TC', error));
+        };
 
-    modal.style.display = 'block';
-  }
+        modal.style.display = 'block';
+    }
 
-  function closeEditModal() {
-    var modal = document.getElementById('editModal');
-    modal.style.display = 'none';
-  }
+    function closeEditModal() {
+        var modal = document.getElementById('editModal');
+        modal.style.display = 'none';
+    }
 
-  function closeCustomerIdModal() {
-    var modal = document.getElementById('customerIdModal');
-    modal.style.display = 'none';
-  }
-  function goToEmployeePage() {
-    window.location.href = 'EmployeePage.html';
-  }
+    function closeCustomerIdModal() {
+        var modal = document.getElementById('customerIdModal');
+        modal.style.display = 'none';
+    }
+
+    function goToEmployeePage() {
+        window.location.href = 'EmployeePage.html';
+    }
 </script>
 </body>
 </html>

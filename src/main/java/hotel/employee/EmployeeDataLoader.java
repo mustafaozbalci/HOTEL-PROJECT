@@ -10,7 +10,6 @@ public class EmployeeDataLoader implements CommandLineRunner {
     EmployeeRepository employeeRepository;
 
 
-
     public void run(String... args) throws Exception {
         if (employeeRepository.findByUsername("admin") == null) {
             // Veritabanına default bir kayıt eklemek için

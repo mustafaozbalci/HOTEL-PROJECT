@@ -34,11 +34,13 @@ public class StockController {
             throw new RuntimeException("Product not found.");
         }
     }
+
     @GetMapping("/allStock")
     public ResponseEntity<List<Stock>> getAllStock() {
         List<Stock> allStock = stockRepository.findAll();
         return ResponseEntity.ok(allStock);
     }
+
     @PostMapping("/addStock")
     public ResponseEntity<String> addStock(@RequestParam String productName, @RequestParam String productType, @RequestParam int currentStock) {
         Stock existingStock = stockRepository.findByProductName(productName);

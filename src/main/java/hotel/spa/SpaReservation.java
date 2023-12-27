@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "spa_reservation", schema = "hotel")
+@Table(name = "spa_reservation", schema = "public")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +19,7 @@ public class SpaReservation {
     @Column(name = "spa_reservation_id")
     private Long spaReservationId;
 
-    @Column(name ="Date")
+    @Column(name = "Date")
     private Date date;
 
     @Column(name = "between_12_13", columnDefinition = "VARCHAR(255) DEFAULT 'available'")
