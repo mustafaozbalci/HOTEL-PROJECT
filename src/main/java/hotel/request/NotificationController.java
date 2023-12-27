@@ -1,5 +1,7 @@
 package hotel.request;
 
+import hotel.Expenses.Invoice;
+import hotel.Expenses.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ public class NotificationController {
 
     @Autowired
     private NotificationRepository notificationRepository;
+    @Autowired
+    private InvoiceRepository invoiceRepository;
 
     @PostMapping("/notifications")
     public ResponseEntity<String> processNotificationRequest(@RequestBody CustomerRequest request) {
@@ -101,16 +105,23 @@ public class NotificationController {
 
     @PostMapping("/place-menu-order")
     public ResponseEntity<Map<String, String>> placeMenuOrder(@RequestBody CustomerRequest request) {
-        String responseMessage = processMenuOrder(request);
+        Long invoiceId = processMenuOrder(request);
+
         Map<String, String> response = new HashMap<>();
-        response.put("message", responseMessage);
-        return ResponseEntity.ok(response);
+        if (invoiceId != null) {
+            response.put("message", "Menu Order processed successfully");
+            response.put("invoiceId", String.valueOf(invoiceId));
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Error processing menu order. Please check server logs.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
-    private String processMenuOrder(CustomerRequest request) {
-        try {
-            // Burada sipariş bilgileri işlenir, örneğin veritabanına kaydedilebilir.
 
+
+    private Long processMenuOrder(CustomerRequest request) {
+        try {
             // Simulate request processing and save to the database
             Notification notification = new Notification();
             notification.setMessage("Received menu order: " + request.getProductName() +
@@ -118,11 +129,76 @@ public class NotificationController {
             notification.setStatus("ACTIVE");
             notification.setRoomNumber(request.getRoomNumber());
             notificationRepository.save(notification);
-
-            return "Menu Order processed successfully";
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error processing menu order. Please check server logs.";
+            return null; // Handle error appropriately, e.g., return an error code
+        }
+        return null;
+    }
+    // Add a new endpoint to save invoice information
+    @PostMapping("/save-invoice")
+    public ResponseEntity<Map<String, String>> saveInvoice(@RequestBody InvoiceRequest invoiceRequest) {
+        try {
+            // Check if an invoice with the given room number already exists
+            Optional<Invoice> existingInvoice = invoiceRepository.findByRoomNumber(invoiceRequest.getRoomNumber());
+
+            if (existingInvoice.isPresent()) {
+                // Update the existing invoice record
+                Invoice invoice = existingInvoice.get();
+                double existingTotalAmount = invoice.getTotalAmount();
+
+                // Concatenate the existing "price" with the new "price" from the request
+                String existingPrice = invoice.getPrice();
+                String newPrice = String.valueOf(invoiceRequest.getPrice());
+                String updatedPrice = existingPrice + " + " + newPrice;
+
+                // Concatenate the existing "orderDescription" with the new "orderDescription" from the request
+                String existingOrderDescription = invoice.getOrderDescription();
+                String newOrderDescription = invoiceRequest.getOrderDescription();
+                String updatedOrderDescription = existingOrderDescription + " - " + newOrderDescription;
+
+                // Calculate the new total amount by adding the existing total amount and the new amount
+                double newTotalAmount = existingTotalAmount + invoiceRequest.getTotalAmount();
+
+                // Update the invoice with the new price, total amount, and updated order description
+                invoice.setPrice(updatedPrice);
+                invoice.setTotalAmount(newTotalAmount);
+                invoice.setOrderDescription(updatedOrderDescription); // Set the updated order description
+                invoiceRepository.save(invoice);
+
+                // Create a description of how the total amount is calculated
+                String description = "Existing total amount: " + existingTotalAmount +
+                        ", New amount added: " + invoiceRequest.getTotalAmount() +
+                        ", Updated total amount: " + newTotalAmount +
+                        ", Updated price history: " + updatedPrice +
+                        ", Updated order description: " + updatedOrderDescription;
+                System.out.println(description);
+            } else {
+                // Create a new invoice record
+                Invoice invoice = new Invoice();
+                invoice.setRoomNumber(invoiceRequest.getRoomNumber());
+                // Convert the price to a string
+                invoice.setPrice(String.valueOf(invoiceRequest.getPrice()));
+                invoice.setTotalAmount(invoiceRequest.getTotalAmount());
+                invoice.setOrderDescription(invoiceRequest.getOrderDescription()); // Set the order description
+                invoiceRepository.save(invoice);
+            }
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Invoice saved successfully");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Error saving invoice. Please check server logs.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
+
+
+
+
+
+
 }

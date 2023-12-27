@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class CustomerService {
 
@@ -46,12 +47,15 @@ public class CustomerService {
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
+
     public Customer getCustomerByTC(String customerTC) {
         return customerRepository.findByCustomerTC(customerTC);
     }
+
     public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
+
     public String updateRoomNumber(Long customerId, String newRoomNumber) {
         Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
 

@@ -278,16 +278,20 @@
 
     function placeOrder(productName, price) {
         var total = (quantityCounters[productName] * price).toFixed(2);
-
         var roomNumber = sessionStorage.getItem('roomNumber');
+        var orderDescription = "Order placed: " + productName + " - Quantity: " + quantityCounters[productName] + " - Total Price: $" + total;
 
         var requestData = {
             productName: productName,
             quantity: quantityCounters[productName],
-            roomNumber: roomNumber
+            roomNumber: roomNumber,
+            totalAmount: parseFloat(total),
+            orderDescription: orderDescription // Include orderDescription
         };
+
         decreaseStock(productName);
 
+        // Make API call to place order
         fetch('http://localhost:8080/process-request/place-menu-order', {
             method: 'POST',
             headers: {
@@ -295,17 +299,49 @@
             },
             body: JSON.stringify(requestData),
         })
-            .then(response => response.json())
-            .then(data => {
-                alert("Order placed: " + productName + " - Quantity: " + quantityCounters[productName] + " - Total Price: $" + total);
-                console.log(data.message); // Access the 'message' property of the response
+            .then(response => {
+                console.log('Server Response:', response);
+                return response.json();
             })
+            .then(data => {
+                alert(orderDescription); // Use orderDescription for alert
+                console.log(data.message);
 
+                // Save invoice information
+                saveInvoiceInfo(roomNumber, price, parseFloat(total), orderDescription);
+            })
             .catch(error => {
                 alert("Error placing order: " + error.message);
                 console.error('Error:', error);
             });
     }
+
+    // Function to save invoice information
+    function saveInvoiceInfo(roomNumber, price, totalAmount, orderDescription) {
+        var invoiceData = {
+            roomNumber: roomNumber,
+            price: price,
+            totalAmount: totalAmount,
+            orderDescription: orderDescription // Include orderDescription in the invoiceData
+        };
+
+        fetch('http://localhost:8080/process-request/save-invoice', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(invoiceData),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message); // Handle successful saving of invoice information
+            })
+            .catch(error => {
+                console.error('Error saving invoice information:', error);
+            });
+    }
+
+
     function decreaseStock(productName) {
         var requestData = {
             productName: productName,

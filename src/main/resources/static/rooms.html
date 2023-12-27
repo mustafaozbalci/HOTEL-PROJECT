@@ -154,17 +154,18 @@
             <td>${room.roomNumber}</td>
             <td>${room.capacity}</td>
             <td>
-              <button onclick="openEditModal(${room.roomId}, ${room.price})">${room.price}</button>
+                <button onclick="openEditModal(${room.roomId}, ${room.price})">${room.price}</button>
             </td>
             <td>${room.type}</td>
-            <td>${room.isAvailable ? 'Yes' : 'No'}</td>
+            <td>${room.isAvailable ? 'Yes' : 'No'}</td> <!-- Updated line -->
             <td>
-              <button onclick="openCustomerIdModal(${room.roomId})">Enter Customer ID</button>
+                <button onclick="openCustomerIdModal(${room.roomId})">Enter Customer ID</button>
             </td>
         `;
       tableBody.appendChild(row);
     });
   }
+
 
   function openEditModal(roomId, currentPrice) {
     var modal = document.getElementById('editModal');

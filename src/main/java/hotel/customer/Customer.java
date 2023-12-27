@@ -59,9 +59,6 @@ public class Customer {
     @Temporal(TemporalType.DATE)
     private Date exitDate;
 
-    @Column(name = "check_id")
-    private int checkId;
-
     @Column(name = "customer_TC")
     private String customerTC;
 

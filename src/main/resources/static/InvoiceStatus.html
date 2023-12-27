@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Status</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        table {
+            width: 70%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .refresh-btn {
+            background-color: #4CAF50; /* Button background color */
+            color: white;
+            display: block;
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 8px;
+            width: 70%;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .refresh-btn:hover {
+            background-color: #45a049; /* Button hover color */
+        }
+
+        .back-btn {
+            background-color: #4CAF50; /* Button background color */
+            color: white;
+            display: block;
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 8px;
+            width: 70%;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background-color: #45a049; /* Button hover color */
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Fonksiyon: Tabloyu güncelle
+            function refreshTable() {
+                var apiUrl = "/invoice-status/all";
+
+                $.get(apiUrl, function (data) {
+                    console.log(data);
+                    // Tabloyu güncelle
+                    updateTable(data);
+                });
+            }
+
+            // Fonksiyon: Verilere göre tabloyu güncelle
+            function updateTable(invoices) {
+                var tbody = $("table tbody");
+                tbody.empty(); // Tabloyu temizle
+
+                // Her bir fatura için satır oluştur
+                invoices.forEach(function (invoice) {
+                    var row = "<tr>" +
+                        "<td>" + invoice.id + "</td>" +
+                        "<td>" + invoice.roomNumber + "</td>" +
+                        "<td>" + invoice.price + "</td>" +
+                        "<td>" + invoice.totalAmount + "</td>" +
+                        "<td>" + invoice.orderDescription + "</td>" +
+                        "</tr>";
+                    tbody.append(row);
+                });
+            }
+
+            // Sayfa yüklendiğinde tabloyu ilk kez güncelle
+            refreshTable();
+
+            // Refresh butonuna tıklandığında tabloyu güncelle
+            $(".refresh-btn").on("click", function () {
+                refreshTable();
+            });
+        });
+    </script>
+</head>
+
+<body>
+<h1>Invoice Status</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Invoice ID</th>
+        <th>Room Number</th>
+        <th>Price</th>
+        <th>Total Amount</th>
+        <th>Order Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Thymeleaf kullanımı düzeltilmiş hali -->
+    <tr th:each="invoice : ${invoices}">
+        <td th:text="${invoice.id}"></td>
+        <td th:text="${invoice.roomNumber}"></td>
+        <td th:text="${invoice.price}"></td>
+        <td th:text="${invoice.totalAmount}"></td>
+        <td th:text="${invoice.orderDescription}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Refresh butonu -->
+<a href="#" class="refresh-btn">Refresh Table</a>
+<!-- Back to EmployeePage butonu -->
+<a href="EmployeePage.html" class="back-btn">Back to EmployeePage</a>
+
+
+</body>
+
+</html>

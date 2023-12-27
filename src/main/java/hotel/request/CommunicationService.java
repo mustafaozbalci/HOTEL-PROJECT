@@ -1,7 +1,6 @@
 // CommunicationService.java
 package hotel.request;
 
-import hotel.employee.Notification;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
