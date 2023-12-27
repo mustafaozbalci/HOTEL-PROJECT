@@ -10,6 +10,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
     List<Notification> findByStatusIn(List<String> statusList);
 
     List<Notification> findByStatusAndRoomNumber(String status, int roomNumber);
-
+    List<Notification> findByStatusInAndRoomNumber(List<String> statuses, int roomNumber);
 }
+
 

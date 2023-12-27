@@ -18,21 +18,21 @@
             padding: 20px;
             text-align: center;
             color: #fff;
+            margin-bottom: 20px;
         }
 
         nav {
-            margin-top: 20px;
             text-align: center;
         }
 
         nav a {
-            margin-right: 15px;
             text-decoration: none;
             color: #4CAF50;
             padding: 10px;
             border: 1px solid #4CAF50;
             border-radius: 5px;
             transition: background-color 0.3s, color 0.3s;
+            margin: 0 10px;
         }
 
         nav a:hover {
@@ -46,12 +46,59 @@
 
         main {
             margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #customerDetails {
+            margin-top: 20px;
+        }
+
+        #customerDetails h3 {
+            color: #4CAF50;
+        }
+
+        #customerDetails ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #customerDetails li {
+            margin-bottom: 10px;
+        }
+
+        #invoiceBoxContainer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #invoiceBox {
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px; /* Yazı boyutunu büyüttük */
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center; /* Metni ortaladık */
+        }
+
+        #invoiceBox h3 {
+             color: #4CAF50;
+             font-size: 1.5em; /* H3 başlığı için yazı boyutunu büyüttük */
+         }
+
+        #invoiceBox p {
+            margin: 0;
+            font-size: 1.2em; /* Paragraf için yazı boyutunu büyüttük */
         }
     </style>
 </head>
 <body>
 <header>
-    <h1>Hotel Application</h1>
+    <h1>DEMERLAND HOTEL</h1>
     <p>Welcome <span id="username">[Guest]</span></p>
 </header>
 
@@ -65,25 +112,28 @@
 <main>
     <h2>Home</h2>
     <p>General information about the hotel can be found here.</p>
-
-    <!-- New section for customer details -->
-    <section id="customerDetails">
-        <h3>Customer Details</h3>
-        <ul>
-            <li><strong>Name:</strong> <span id="customerName"></span></li>
-            <li><strong>Surname:</strong> <span id="customerSurname"></span></li>
-            <li><strong>Room Number:</strong> <span id="roomNumber"></span></li>
-            <li><strong>Birth Date:</strong> <span id="birthDate"></span></li>
-            <li><strong>Gender:</strong> <span id="sex"></span></li>
-            <li><strong>Entry Date:</strong> <span id="entryDate"></span></li>
-            <li><strong>Exit Date:</strong> <span id="exitDate"></span></li>
-            <li><strong>TC Identification Number:</strong> <span id="customerTC"></span></li>
-            <li><strong>Email:</strong> <span id="email"></span></li>
-            <li><strong>Phone Number:</strong> <span id="phoneNumber"></span></li>
-        </ul>
-    </section>
+    <div id="invoiceBoxContainer">
+        <section id="customerDetails">
+            <h3>Customer Details</h3>
+            <ul>
+                <li><strong>Name:</strong> <span id="customerName"></span></li>
+                <li><strong>Surname:</strong> <span id="customerSurname"></span></li>
+                <li><strong>Room Number:</strong> <span id="roomNumber"></span></li>
+                <li><strong>Birth Date:</strong> <span id="birthDate"></span></li>
+                <li><strong>Gender:</strong> <span id="sex"></span></li>
+                <li><strong>Entry Date:</strong> <span id="entryDate"></span></li>
+                <li><strong>Exit Date:</strong> <span id="exitDate"></span></li>
+                <li><strong>TC Identification Number:</strong> <span id="customerTC"></span></li>
+                <li><strong>Email:</strong> <span id="email"></span></li>
+                <li><strong>Phone Number:</strong> <span id="phoneNumber"></span></li>
+            </ul>
+        </section>
+        <div id="invoiceBox">
+            <h3>Invoice</h3>
+            <p>Total Amount: <span id="totalAmount"></span></p>
+        </div>
+    </div>
 </main>
-
 <script>
     // Check if customer details are already in sessionStorage
     var customerName = sessionStorage.getItem('customerName');
@@ -121,7 +171,8 @@
         document.getElementById('customerTC').innerText = sessionStorage.getItem('customerTC');
         document.getElementById('email').innerText = sessionStorage.getItem('email');
         document.getElementById('phoneNumber').innerText = sessionStorage.getItem('phoneNumber');
-    }if (!customerName) {
+    }
+    if (!customerName) {
         var urlParams = new URLSearchParams(window.location.search);
         customerName = urlParams.get('customerName');
 
@@ -137,7 +188,48 @@
     document.querySelector('nav a[href="PendingNotifications.html"]').addEventListener('click', function () {
         window.location.href = 'PendingNotifications.html';
     });
-</script>
 
+    function updateInvoiceContent() {
+        // Session Storage'dan oda numarasını al
+        var roomNumber = sessionStorage.getItem('roomNumber');
+
+        // Oda numarasını kullanarak belirli bir fatura bilgisini API'den al
+        var apiUrl = "/invoice-status/getByRoomNumber/" + roomNumber;
+
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Invoice not found for room number: " + roomNumber);
+                }
+                return response.json();
+            })
+            .then(invoice => {
+                var totalAmount = invoice.totalAmount; // Fatura nesnesindeki totalAmount özelliğini al
+
+                // Fatura kutusundaki elementleri güncelle
+                var totalAmountElement = document.getElementById('totalAmount');
+
+                // "Total Amount" yazısı eklendi
+                totalAmountElement.innerText = totalAmount + " $";
+
+                // Ek olarak, diğer fatura bilgilerini istediğiniz şekilde güncelleyebilirsiniz
+                var orderDescriptionElement = document.getElementById('orderDescription');
+                orderDescriptionElement.innerText = "Order Description: " + invoice.orderDescription;
+
+                var priceElement = document.getElementById('price');
+                priceElement.innerText = "Price: " + invoice.price;
+            })
+            .catch(error => {
+                console.error("Error fetching invoice data:", error);
+            });
+    }
+
+    // Sayfa yüklendiğinde fatura içeriğini güncelle
+    document.addEventListener("DOMContentLoaded", function () {
+        updateInvoiceContent();
+    });
+
+
+</script>
 </body>
 </html>

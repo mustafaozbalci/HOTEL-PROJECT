@@ -96,10 +96,19 @@ public class NotificationController {
         return new ResponseEntity<>(historyNotifications, HttpStatus.OK);
     }
     @GetMapping("/active-notifications")
-    public ResponseEntity<List<Notification>> getActiveNotificationsByRoomNumber(@RequestParam int roomNumber) {
-        List<Notification> activeNotifications = notificationRepository.findByStatusAndRoomNumber("ACTIVE", roomNumber);
-        return new ResponseEntity<>(activeNotifications, HttpStatus.OK);
+    public ResponseEntity<List<Notification>> getActiveAndRejectedNotificationsByRoomNumber(@RequestParam int roomNumber) {
+        List<Notification> activeAndRejectedNotifications =
+                notificationRepository.findByStatusInAndRoomNumber(List.of("ACTIVE", "REJECTED"), roomNumber);
+        return new ResponseEntity<>(activeAndRejectedNotifications, HttpStatus.OK);
     }
+    @GetMapping("/passive-notifications")
+    public ResponseEntity<List<Notification>> getPassiveNotificationsByRoomNumber(@RequestParam int roomNumber) {
+        List<Notification> activeAndRejectedNotifications =
+                notificationRepository.findByStatusAndRoomNumber("PASSIVE", roomNumber);
+        return new ResponseEntity<>(activeAndRejectedNotifications, HttpStatus.OK);
+    }
+
+
 
 
 
@@ -194,11 +203,5 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
-
-
-
-
-
 
 }

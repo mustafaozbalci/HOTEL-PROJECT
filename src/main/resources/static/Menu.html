@@ -117,6 +117,28 @@
 
 
 <h1>Hotel Menu</h1>
+<div class="menu-item">
+    <h2>Fanta</h2>
+    <p>Buzzzzz gibi sarı kola.</p>
+    <p class="price">$5.99</p>
+    <button class="orderButton" onclick="placeOrder('Fanta', 5.99)">Order $5.99</button>
+    <div>
+        <button onclick="decrementQuantity('Fanta')">-</button>
+        <span id="Fanta-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Fanta')">+</button>
+    </div>
+</div>
+<div class="menu-item">
+    <h2>Coca Cola</h2>
+    <p>Buzzzz gibi kola.</p>
+    <p class="price">$5.99</p>
+    <button class="orderButton" onclick="placeOrder('Coca Cola', 5.99)">Order $5.99</button>
+    <div>
+        <button onclick="decrementQuantity('Coca Cola')">-</button>
+        <span id="Coca Cola-quantityDisplay">1</span>
+        <button onclick="incrementQuantity('Coca Cola')">+</button>
+    </div>
+</div>
 
 <!-- Italian Pasta Menu Item -->
 <div class="menu-item">

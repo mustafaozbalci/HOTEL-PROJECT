@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +28,8 @@
             background-color: #fff; /* Table background color */
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
@@ -55,6 +57,7 @@
         button:hover {
             background-color: #45a049; /* Button hover color */
         }
+
         button#backToCustomerPageButton {
             position: fixed;
             bottom: 10px;
@@ -72,8 +75,42 @@
             background-color: #45a049;
         }
 
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
+
 <body>
 
 <h1>Customer Pending Notifications</h1>
@@ -84,6 +121,8 @@
 <!-- Back to Customer Page button -->
 <button id="backToCustomerPageButton" onclick="goToCustomerPage()">Back to Customer Page</button>
 
+<!-- View History button -->
+<button onclick="viewHistory()">View History</button>
 
 <!-- Notification table -->
 <table>
@@ -98,23 +137,36 @@
     </tbody>
 </table>
 
-<script>
+<!-- History Modal -->
+<div id="historyModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeHistoryModal()">&times;</span>
+        <h2>Notification History</h2>
+        <!-- History table -->
+        <table>
+            <thead>
+            <tr>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Room Number</th>
+            </tr>
+            </thead>
+            <tbody id="historyTableBody">
+            </tbody>
+        </table>
+    </div>
+</div>
 
-    // Bu satır ile sayfa yüklendiğinde otomatik olarak bildirimleri getiriyoruz
+<script>
+    // Initial display of active and rejected notifications
     refreshNotifications();
 
     function refreshNotifications() {
-        // Bu fonksiyonun daha önce çağrılıp çağrılmadığını kontrol et
-        if (!refreshNotifications.called) {
-            // Eğer çağrılmadıysa, çağır ve işaretle
-            sendNotificationRequest("/process-request/active-notifications");
-            refreshNotifications.called = true;
-        }
+        // Display active and rejected notifications
+        sendNotificationRequest("/process-request/active-notifications", updateNotificationTable);
     }
 
-    // Define the function to send a notification request
-    // Update the function to send a notification request with roomNumber as a query parameter
-    function sendNotificationRequest(endpoint) {
+    function sendNotificationRequest(endpoint, callback) {
         var roomNumber = sessionStorage.getItem('roomNumber');
 
         if (!roomNumber) {
@@ -131,7 +183,7 @@
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     var notifications = JSON.parse(xhr.responseText);
-                    updateNotificationTable(notifications);
+                    callback(notifications);
                 } else {
                     console.error("Error fetching notifications. Server status:", xhr.status);
                     alert("Error fetching notifications. Please check the console for details.");
@@ -141,8 +193,6 @@
 
         xhr.send();
     }
-
-
 
     function updateNotificationTable(notifications) {
         var tableBody = document.getElementById("notificationTableBody");
@@ -164,9 +214,36 @@
         window.location.href = 'CustomerPage.html';
     }
 
-    // Diğer fonksiyonları ekleyebilirsiniz...
+    function viewHistory() {
+        // Display passive notifications when viewing history
+        sendNotificationRequest("/process-request/passive-notifications", updateHistoryTable);
+        // Display the history modal
+        var modal = document.getElementById('historyModal');
+        modal.style.display = 'block';
+    }
 
+    function updateHistoryTable(notifications) {
+        var tableBody = document.getElementById("historyTableBody");
+        tableBody.innerHTML = "";
+
+        notifications.forEach(function (notification) {
+            var row = tableBody.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+
+            cell1.innerHTML = notification.message;
+            cell2.innerHTML = notification.status;
+            cell3.innerHTML = notification.roomNumber;
+        });
+    }
+
+    function closeHistoryModal() {
+        var modal = document.getElementById('historyModal');
+        modal.style.display = 'none';
+    }
 </script>
 
 </body>
+
 </html>
