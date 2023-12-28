@@ -74,7 +74,7 @@
         $(document).ready(function () {
             // Fonksiyon: Tabloyu güncelle
             function refreshTable() {
-                var apiUrl = "/invoice-status/all";
+                var apiUrl = "/invoice-status/getAll";
 
                 $.get(apiUrl, function (data) {
                     console.log(data);

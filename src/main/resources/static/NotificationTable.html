@@ -268,24 +268,6 @@
         window.location.href = 'EmployeePage.html';
     }
 
-    function sendRoomNumberToPage(roomNumber) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/process-request/send-room-number", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    // Başarılı bir şekilde gönderildi.
-                } else {
-                    alert("Error sending room number. Server status: " + xhr.status);
-                }
-            }
-        };
-
-        var data = JSON.stringify(roomNumber);
-        xhr.send(data);
-    }
 
     function confirmDeactivation() {
         var modal = document.getElementById('deactivationModal');

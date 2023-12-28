@@ -157,7 +157,7 @@
                 <button onclick="openEditModal(${room.roomId}, ${room.price})">${room.price}</button>
             </td>
             <td>${room.type}</td>
-            <td>${room.isAvailable ? 'Yes' : 'No'}</td> <!-- Updated line -->
+            <td>${room.available ? 'Yes' : 'No'}</td> <!-- Updated line -->
             <td>
                 <button onclick="openCustomerIdModal(${room.roomId})">Enter Customer ID</button>
             </td>
@@ -165,6 +165,8 @@
             tableBody.appendChild(row);
         });
     }
+
+
 
 
     function openEditModal(roomId, currentPrice) {

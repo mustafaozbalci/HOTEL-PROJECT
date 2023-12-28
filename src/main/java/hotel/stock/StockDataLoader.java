@@ -11,6 +11,7 @@ import java.util.List;
 public class StockDataLoader implements CommandLineRunner {
 
     private final StockRepository stockRepository;
+    private boolean dataLoaded = false;
 
     @Autowired
     public StockDataLoader(StockRepository stockRepository) {
@@ -19,27 +20,30 @@ public class StockDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<String> stockItems = Arrays.asList("Fanta", "Coca Cola", "Italian Pasta", "Grilled Salmon",
-                "Breakfast Burger", "Fruit Smoothie", "Caesar Salad", "Margarita Pizza",
-                "Vegetarian Wrap", "Chocolate Brownie Sundae", "Chicken Alfredo", "Green Detox Smoothie");
+        if (!dataLoaded) {
+            List<String> stockItems = Arrays.asList("Fanta", "Coca Cola", "Italian Pasta", "Grilled Salmon",
+                    "Breakfast Burger", "Fruit Smoothie", "Caesar Salad", "Margarita Pizza",
+                    "Vegetarian Wrap", "Chocolate Brownie Sundae", "Chicken Alfredo", "Green Detox Smoothie");
 
-        // Stokta her üründen 500 adet ekleyin
-        for (String stockItem : stockItems) {
-            Stock existingStock = stockRepository.findByProductName(stockItem);
+            // Stokta her üründen 500 adet ekleyin
+            for (String stockItem : stockItems) {
+                Stock existingStock = stockRepository.findByProductName(stockItem);
 
-            if (existingStock == null) {
-                Stock stock = new Stock();
-                stock.setProductName(stockItem);
-                stock.setProductType(getProductType(stockItem)); // getProductType metodunu tanımlamanız gerekiyor
-                stock.setCurrentStock(500);
-                // Diğer özellikleri de ayarlayabilirsiniz (price vb.)
+                if (existingStock == null) {
+                    Stock stock = new Stock();
+                    stock.setProductName(stockItem);
+                    stock.setProductType(getProductType(stockItem)); // getProductType metodunu tanımlamanız gerekiyor
+                    stock.setCurrentStock(500);
+                    // Diğer özellikleri de ayarlayabilirsiniz (price vb.)
 
-                stockRepository.save(stock);
-            } else {
-                // Eğer ürün zaten varsa, sadece stok miktarını artırabilirsiniz
-                existingStock.setCurrentStock(existingStock.getCurrentStock() + 500);
-                stockRepository.save(existingStock);
+                    stockRepository.save(stock);
+                } else {
+                    // Eğer ürün zaten varsa, sadece stok miktarını artırabilirsiniz
+                    existingStock.setCurrentStock(existingStock.getCurrentStock() + 500);
+                    stockRepository.save(existingStock);
+                }
             }
+            dataLoaded = true;
         }
     }
 

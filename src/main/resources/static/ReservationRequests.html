@@ -102,7 +102,6 @@
                 $('<th>').text('Sex'),
                 $('<th>').text('Entry Date'),
                 $('<th>').text('Exit Date'),
-                $('<th>').text('Check ID'),
                 $('<th>').text('Customer TC'),
                 $('<th>').text('Actions') // New column for actions
             );
@@ -118,7 +117,6 @@
                     $('<td>').text(customer.sex),
                     $('<td>').text(customer.entryDate),
                     $('<td>').text(customer.exitDate),
-                    $('<td>').text(customer.checkId),
                     $('<td>').text(customer.customerTC),
                     $('<td>').append(
                         $('<button>').text('Update Room Number').click(function () {

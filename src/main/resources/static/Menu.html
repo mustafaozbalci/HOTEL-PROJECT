@@ -119,18 +119,19 @@
 <h1>Hotel Menu</h1>
 <div class="menu-item">
     <h2>Fanta</h2>
-    <p>Buzzzzz gibi sarı kola.</p>
+    <p>Experience the vibrant burst of sunshine with our Fanta! This golden cola sensation is sure to tickle your taste buds and leave you feeling refreshed.</p>
     <p class="price">$5.99</p>
     <button class="orderButton" onclick="placeOrder('Fanta', 5.99)">Order $5.99</button>
-    <div>
-        <button onclick="decrementQuantity('Fanta')">-</button>
-        <span id="Fanta-quantityDisplay">1</span>
-        <button onclick="incrementQuantity('Fanta')">+</button>
-    </div>
 </div>
+<div>
+    <button onclick="decrementQuantity('Fanta')">-</button>
+    <span id="Fanta-quantityDisplay">1</span>
+    <button onclick="incrementQuantity('Fanta')">+</button>
+</div>
+
 <div class="menu-item">
     <h2>Coca Cola</h2>
-    <p>Buzzzz gibi kola.</p>
+    <p>Indulge in the classic effervescence of Coca Cola. The timeless, fizzy delight that has been satisfying cola enthusiasts for generations. Embrace the iconic taste that never goes out of style.</p>
     <p class="price">$5.99</p>
     <button class="orderButton" onclick="placeOrder('Coca Cola', 5.99)">Order $5.99</button>
     <div>
@@ -274,10 +275,10 @@
 <a class="redirectButton" href="CustomerPage.html">Go to Home Page</a>
 <script>
     var quantityCounters = {}; // Use an object to store individual counters for each product
-
-    function goBackToPage(page) {
-        window.location.href = page;
-    }
+    document.querySelectorAll('.menu-item').forEach(item => {
+        var productName = item.querySelector('h2').innerText;
+        quantityCounters[productName] = 0;
+    });
 
     function incrementQuantity(productName) {
         // Increment the quantity for the specific product
