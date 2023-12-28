@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spa Reservations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        table {
+            width: 70%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+
+<body>
+<h1>Spa Reservations</h1>
+<table border="1" id="spaTable">
+    <tr>
+        <th>ID</th>
+        <th>Room Number</th>
+        <th>Message</th>
+    </tr>
+    <tr th:each="spaReservation : ${spaReservations}">
+        <td th:text="${spaReservation.id}"></td>
+        <td th:text="${spaReservation.roomNumber}"></td>
+        <td th:text="${spaReservation.message}"></td>
+    </tr>
+</table>
+<button onclick="refreshTable()">Refresh</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        refreshTable();
+    });
+
+    function refreshTable() {
+        fetch('/spa-reservations')
+            .then(response => {
+                console.log("Response status:", response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log("Data received:", data);
+
+                const tableBody = document.querySelector('table tbody');
+                tableBody.innerHTML = '';
+
+                data.forEach(spaReservation => {
+                    const row = tableBody.insertRow();
+                    row.insertCell(0).textContent = spaReservation.id;
+                    row.insertCell(1).textContent = spaReservation.roomNumber;
+                    row.insertCell(2).textContent = spaReservation.message;
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+</body>
+
+</html>

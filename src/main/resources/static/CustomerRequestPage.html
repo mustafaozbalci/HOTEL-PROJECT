@@ -223,14 +223,16 @@
             alert('Uyarı: Talep gönderilemez. Uyarı kaydınız henüz tamamlanmamıştır.');
             return;
         }
+
         var spaDate = document.getElementById('spaDate').value;
         var spaTime = document.getElementById('spaTime').value;
-        var spaAmountDisplay = document.getElementById('spaAmount');
-        var extraPersonDifferences = document.getElementById('extrapersondifference');
 
-        // Send spa request to the server
+        // Eksik: Spa Request ile ilgili işlemleri burada gerçekleştirin
+        // Örneğin, bir AJAX isteği ile sunucuya spa talebini iletebilirsiniz.
+
+        // AJAX isteği örneği:
         var xhr = new XMLHttpRequest();
-        var url = 'http://localhost:8080/process-request/spa-requests'; // Update the URL with your server endpoint for spa requests
+        var url = 'http://localhost:8080/process-request/spa-requests';
 
         xhr.open('POST', url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -238,7 +240,7 @@
         var requestData = {
             requestType: 'Spa',
             content: 'Spa Request - Date: ' + spaDate + ', Time: ' + spaTime,
-            roomNumber: sessionStorage.getItem('roomNumber') // roomNumber bilgisini al
+            roomNumber: sessionStorage.getItem('roomNumber')
         };
 
         xhr.onreadystatechange = function () {
@@ -249,6 +251,7 @@
 
         xhr.send(JSON.stringify(requestData));
     }
+
 
     function sendExtendedAccommodationRequest() {
         var roomNumber = sessionStorage.getItem('roomNumber');

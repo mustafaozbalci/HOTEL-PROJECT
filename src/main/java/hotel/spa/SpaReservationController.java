@@ -1,16 +1,23 @@
 package hotel.spa;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/spa-reservations")
+@RequestMapping("/spa-reservations")
 public class SpaReservationController {
 
+    @Autowired
+    private SpaRepository spaRepository;
 
-    @PatchMapping("/{spaReservationId}")
-    public ResponseEntity<String> updateSpaReservation(@PathVariable Long spaReservationId,
-                                                       @RequestBody SpaReservation updatedSpaReservation) {
-        return ResponseEntity.ok("Spa Reservation updated successfully");
+
+    @GetMapping
+    public List<SpaReservation> getAllSpaReservations() {
+        return spaRepository.findAll();
     }
+
 }

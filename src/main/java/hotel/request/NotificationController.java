@@ -2,6 +2,8 @@ package hotel.request;
 
 import hotel.Expenses.Invoice;
 import hotel.Expenses.InvoiceRepository;
+import hotel.spa.SpaRepository;
+import hotel.spa.SpaReservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ public class NotificationController {
     private NotificationRepository notificationRepository;
     @Autowired
     private InvoiceRepository invoiceRepository;
+    @Autowired
+    private SpaRepository spaRepository;
 
     @PostMapping("/notifications")
     public ResponseEntity<String> processNotificationRequest(@RequestBody CustomerRequest request) {
@@ -28,7 +32,32 @@ public class NotificationController {
 
     @PostMapping("/spa-requests")
     public ResponseEntity<String> processSpaRequest(@RequestBody CustomerRequest request) {
-        return processRequest(request, "Spa Request processed successfully");
+        try {
+            // Extract relevant information from CustomerRequest
+            String content = request.getContent();
+            int roomNumber = request.getRoomNumber();
+
+            // Create a new SpaReservation object
+            SpaReservation spaReservation = new SpaReservation();
+            spaReservation.setRoomNumber(roomNumber);
+            spaReservation.setMessage(content);
+            // Set other relevant fields in SpaReservation using information from CustomerRequest
+
+            // Save the SpaReservation to the database using SpaRepository
+            spaRepository.save(spaReservation);
+
+            // Simulate request processing and save to the database
+            Notification notification = new Notification();
+            notification.setMessage(request.getRequestType() + ": " + content);
+            notification.setStatus("ACTIVE");
+            notification.setRoomNumber(roomNumber);
+            notificationRepository.save(notification);
+
+            return new ResponseEntity<>("Spa Request processed successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error processing Spa Request. Please check server logs.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/extend-accommodation-requests")
