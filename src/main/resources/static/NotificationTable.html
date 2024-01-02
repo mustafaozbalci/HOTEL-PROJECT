@@ -10,18 +10,18 @@
             padding: 0;
             font-family: Arial, sans-serif;
             overflow: hidden;
-            background-color: #f1f1f1; /* Background color */
+            background-color: #f1f1f1;
         }
 
         h1 {
             text-align: center;
             padding: 20px;
-            background-color: #333; /* Header background color */
-            color: #fff; /* Header text color */
+            background-color: #333;
+            color: #fff;
         }
 
         button {
-            background-color: #4CAF50; /* Button background color */
+            background-color: #4CAF50;
             color: white;
             padding: 10px 15px;
             margin: 10px;
@@ -31,14 +31,14 @@
         }
 
         button:hover {
-            background-color: #45a049; /* Button hover color */
+            background-color: #45a049;
         }
 
         table {
             width: 80%;
             margin: 20px auto;
             border-collapse: collapse;
-            background-color: #fff; /* Table background color */
+            background-color: #fff;
         }
 
         th, td {
@@ -48,20 +48,20 @@
         }
 
         th {
-            background-color: #4CAF50; /* Header background color */
+            background-color: #4CAF50;
             color: white;
         }
 
         tr:hover {
-            background-color: #f5f5f5; /* Row hover color */
+            background-color: #f5f5f5;
         }
 
         button.deactivate {
-            background-color: #f44336; /* Deactivate button background color */
+            background-color: #f44336;
         }
 
         button.deactivate:hover {
-            background-color: #d32f2f; /* Deactivate button hover color */
+            background-color: #d32f2f;
         }
 
         .modal {
@@ -103,11 +103,8 @@
 
 <h1>Notification List</h1>
 
-<!-- Refresh button -->
 <button onclick="refreshNotifications()">Refresh</button>
-<!-- History Button *-->
 <button onclick="showHistory()">History</button>
-<!-- Back to Employee Page button -->
 <button onclick="goToEmployeePage()" style="position: fixed; bottom: 10px; left: 10px;">Back to Employee Page</button>
 
 <div id="historyModal" class="modal">
@@ -145,7 +142,7 @@
         <th>Notification ID</th>
         <th>Message</th>
         <th>Status</th>
-        <th>Room Number</th> <!-- Yeni eklenen sütun -->
+        <th>Room Number</th>
         <th>Action</th>
     </tr>
     </thead>
@@ -183,13 +180,13 @@
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3); // Yeni eklenen sütun
+            var cell4 = row.insertCell(3);
             var cell5 = row.insertCell(4);
 
             cell1.innerHTML = notification.notificationId;
             cell2.innerHTML = notification.message;
             cell3.innerHTML = notification.status;
-            cell4.innerHTML = notification.roomNumber; // Yeni eklenen sütun
+            cell4.innerHTML = notification.roomNumber;
             if (notification.status === "ACTIVE") {
                 var button = document.createElement("button");
                 button.innerHTML = "Deactivate";
@@ -204,14 +201,9 @@
     }
 
     function deactivateNotification(notificationId, row) {
-        // Display the deactivation options modal
         var modal = document.getElementById('deactivationModal');
         modal.style.display = 'block';
-
-        // Set a custom attribute to store the notification ID
         modal.setAttribute('data-notification-id', notificationId);
-
-        // Set a reference to the row to update it after deactivation
         modal.setAttribute('data-row-index', row.rowIndex);
     }
 
@@ -263,8 +255,6 @@
     }
 
     function goToEmployeePage() {
-        // Burada istediğiniz sayfaya geri dönüş işlemini gerçekleştirebilirsiniz.
-        // Örneğin, EmployeePage.html dosyasına yönlendirme:
         window.location.href = 'EmployeePage.html';
     }
 
@@ -273,11 +263,7 @@
         var modal = document.getElementById('deactivationModal');
         var notificationId = modal.getAttribute('data-notification-id');
         var rowIndex = modal.getAttribute('data-row-index');
-
-        // Send a request to confirm deactivation
         sendDeactivationRequest(notificationId, "confirm", rowIndex);
-
-        // Close the deactivation options modal
         modal.style.display = 'none';
     }
 
@@ -285,16 +271,11 @@
         var modal = document.getElementById('deactivationModal');
         var notificationId = modal.getAttribute('data-notification-id');
         var rowIndex = modal.getAttribute('data-row-index');
-
-        // Send a request to reject deactivation
         sendDeactivationRequest(notificationId, "reject", rowIndex);
-
-        // Close the deactivation options modal
         modal.style.display = 'none';
     }
 
     function cancelDeactivation() {
-        // Close the deactivation options modal without taking any action
         var modal = document.getElementById('deactivationModal');
         modal.style.display = 'none';
     }
@@ -307,12 +288,10 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                    // Update the row in the table based on the action
                     if (action === "confirm") {
                         document.getElementById('notificationTableBody').deleteRow(rowIndex - 1);
                         alert("Notification deactivated successfully");
                     } else if (action === "reject") {
-                        // Handle rejection action if needed
                         alert("Notification rejection handled successfully");
                     }
                 } else {

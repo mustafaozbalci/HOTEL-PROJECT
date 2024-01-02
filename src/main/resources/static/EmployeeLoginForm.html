@@ -35,12 +35,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: rgba(244, 244, 244, 0.8); /* Hafif bir arka plan renk düzeltmesi */
+            background-color: rgba(244, 244, 244, 0.8);
             padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif bir gölgelendirme eklemesi */
-            border-radius: 10px; /* Köşeleri yuvarlama */
-            max-width: 400px; /* Maksimum genişlik belirleme */
-            margin: auto; /* Ortalama */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            max-width: 400px;
+            margin: auto;
         }
 
         h2 {
@@ -56,14 +56,14 @@
         }
 
         input {
-            width: 100%; /* Genişliği tam olarak doldur */
+            width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             box-sizing: border-box;
         }
 
         button {
-            width: 100%; /* Genişliği tam olarak doldur */
+            width: 100%;
             padding: 10px;
             font-size: 16px;
             cursor: pointer;
@@ -75,11 +75,11 @@
         }
 
         button:hover {
-            background-color: #45a049; /* Hover rengi */
+            background-color: #45a049;
         }
 
         .home-button {
-            width: 100%; /* Genişliği tam olarak doldur */
+            width: 100%;
             padding: 10px;
             font-size: 16px;
             cursor: pointer;
@@ -90,7 +90,7 @@
         }
 
         .home-button:hover {
-            background-color: #555; /* Hover rengi */
+            background-color: #555;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -135,10 +135,9 @@
                 console.log("Login successful");
 
                 if (response) {
-                    // Assuming your server response has a 'role' property
                     var userRole = response.role;
 
-                    // Kullanıcı giriş yaptığında bilgileri sessionStorage'e kaydet
+                    // Save the info to SessionStorage
                     sessionStorage.setItem("username", username);
                     sessionStorage.setItem("role", userRole);
                     sessionStorage.setItem("isLoggedIn", true);
@@ -159,7 +158,7 @@
 
 
     function redirectToHomePage() {
-        window.location.href = "FirstPage.html"; // Adjust the URL as needed
+        window.location.href = "FirstPage.html";
     }
 </script>
 </body>

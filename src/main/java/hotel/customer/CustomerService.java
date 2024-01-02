@@ -58,10 +58,9 @@ public class CustomerService {
         if (optionalCustomer.isPresent()) {
             Customer customer = optionalCustomer.get();
             customer.setRoomNumber(newRoomNumber);
-            customerRepository.save(customer); // Save the updated customer
+            customerRepository.save(customer);
             return "Room number updated successfully";
         } else {
-            // You can customize the error message based on your application's requirements
             throw new RuntimeException("Customer not found with id: " + customerId);
         }
     }

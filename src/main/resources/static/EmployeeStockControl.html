@@ -155,7 +155,7 @@
             .then(response => response.json())
             .then(data => {
                 const stockTableBody = document.getElementById('stockTableBody');
-                stockTableBody.innerHTML = ''; // Clear existing data
+                stockTableBody.innerHTML = '';
 
                 // Loop through the stock data and create table rows
                 data.forEach(stock => {
@@ -172,7 +172,6 @@
             })
             .catch(error => {
                 console.error('Error fetching stock data:', error);
-                // Handle the error, show a message, or perform other actions
             });
     }
 
@@ -183,7 +182,7 @@
         const currentStockInput = document.getElementById('currentStock');
 
         productNameInput.value = productName;
-        currentStockInput.value = ''; // Clear previous value
+        currentStockInput.value = '';
 
         modal.style.display = 'block';
     }
@@ -200,7 +199,6 @@
         var productNameInput = document.getElementById('productName');
         var currentStockInput = document.getElementById('currentStock');
 
-        // Eğer miktar girilmemişse uyarı ver
         if (currentStockInput.value.trim() === '') {
             alert('Lütfen miktar giriniz.');
             return;
@@ -226,12 +224,10 @@
                     alert('Stock added successfully!');
                 } else {
                     console.error('Error adding stock:', data.message);
-                    // Handle the error, show a message, or perform other actions
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                // Handle the error, show a message, or perform other actions
             });
     }
 

@@ -45,12 +45,12 @@ public class StockController {
     public ResponseEntity<String> addStock(@RequestParam String productName, @RequestParam String productType, @RequestParam int currentStock) {
         Stock existingStock = stockRepository.findByProductName(productName);
         if (existingStock != null) {
-            // Eğer ürün zaten varsa, mevcut stok miktarını arttır
+            // Check product already exists, if it is then increase
             existingStock.setCurrentStock(existingStock.getCurrentStock() + currentStock);
             stockRepository.save(existingStock);
             return ResponseEntity.ok("Stock updated successfully.");
         } else {
-            // Eğer ürün yoksa, yeni bir ürün ekle
+            // If product not exists. Create new one.
             Stock newStock = new Stock();
             newStock.setProductName(productName);
             newStock.setProductType(productType);

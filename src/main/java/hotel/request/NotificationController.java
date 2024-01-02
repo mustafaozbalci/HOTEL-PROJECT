@@ -33,7 +33,6 @@ public class NotificationController {
     @PostMapping("/spa-requests")
     public ResponseEntity<String> processSpaRequest(@RequestBody CustomerRequest request) {
         try {
-            // Extract relevant information from CustomerRequest
             String content = request.getContent();
             int roomNumber = request.getRoomNumber();
 
@@ -41,7 +40,6 @@ public class NotificationController {
             SpaReservation spaReservation = new SpaReservation();
             spaReservation.setRoomNumber(roomNumber);
             spaReservation.setMessage(content);
-            // Set other relevant fields in SpaReservation using information from CustomerRequest
 
             // Save the SpaReservation to the database using SpaRepository
             spaRepository.save(spaReservation);
@@ -154,8 +152,6 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
-
     private Long processMenuOrder(CustomerRequest request) {
         try {
             // Simulate request processing and save to the database
@@ -167,12 +163,11 @@ public class NotificationController {
             notificationRepository.save(notification);
         } catch (Exception e) {
             e.printStackTrace();
-            return null; // Handle error appropriately, e.g., return an error code
+            return null;
         }
         return null;
     }
 
-    // Add a new endpoint to save invoice information
     @PostMapping("/save-invoice")
     public ResponseEntity<Map<String, String>> saveInvoice(@RequestBody InvoiceRequest invoiceRequest) {
         try {

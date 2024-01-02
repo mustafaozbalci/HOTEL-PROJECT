@@ -87,14 +87,14 @@
 
         axios.get('/api/customer/check/' + tcKimlikNo)
             .then(function (response) {
-                // Başarılı giriş
+                // Login Success
                 console.log(response.data);
                 document.getElementById("errorMessage").innerText = "";
 
-                // Müşteri bilgilerini al
+                // Bring Customer Info
                 var customerInfo = response.data;
 
-                // Sayfaya geçiş yap
+                // Redirect
                 window.location.href = '/CustomerPage.html?' +
                     'customerName=' + customerInfo.customerName +
                     '&customerSurname=' + customerInfo.customerSurname +
@@ -108,7 +108,6 @@
                     '&phoneNumber=' + customerInfo.phoneNumber;
             })
             .catch(function (error) {
-                // Hata durumu
                 console.error(error.response.data);
                 document.getElementById("errorMessage").innerText = "Müşteri bulunamadı. TC Kimlik No kontrol ediniz.";
             });

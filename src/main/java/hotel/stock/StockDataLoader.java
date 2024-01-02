@@ -32,13 +32,11 @@ public class StockDataLoader implements CommandLineRunner {
                 if (existingStock == null) {
                     Stock stock = new Stock();
                     stock.setProductName(stockItem);
-                    stock.setProductType(getProductType(stockItem)); // getProductType metodunu tanımlamanız gerekiyor
+                    stock.setProductType(getProductType(stockItem));
                     stock.setCurrentStock(500);
-                    // Diğer özellikleri de ayarlayabilirsiniz (price vb.)
 
                     stockRepository.save(stock);
                 } else {
-                    // Eğer ürün zaten varsa, sadece stok miktarını artırabilirsiniz
                     existingStock.setCurrentStock(existingStock.getCurrentStock() + 500);
                     stockRepository.save(existingStock);
                 }
@@ -48,7 +46,6 @@ public class StockDataLoader implements CommandLineRunner {
     }
 
     private String getProductType(String productName) {
-        // İçecekleri özel olarak kontrol et
         if (productName.toLowerCase().contains("cola") || productName.toLowerCase().contains("smoothie") || productName.toLowerCase().contains("fanta")) {
             return "drink";
         } else {

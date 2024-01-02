@@ -55,7 +55,6 @@
             background-color: #45a049;
         }
 
-        /* Optional: Adjust styles for the h1 heading */
         h1 {
             text-align: center;
             padding: 20px;
@@ -119,7 +118,8 @@
 <h1>Hotel Menu</h1>
 <div class="menu-item">
     <h2>Fanta</h2>
-    <p>Experience the vibrant burst of sunshine with our Fanta! This golden cola sensation is sure to tickle your taste buds and leave you feeling refreshed.</p>
+    <p>Experience the vibrant burst of sunshine with our Fanta! This golden cola sensation is sure to tickle your taste
+        buds and leave you feeling refreshed.</p>
     <p class="price">$5.99</p>
     <button class="orderButton" onclick="placeOrder('Fanta', 5.99)">Order $5.99</button>
 </div>
@@ -131,7 +131,8 @@
 
 <div class="menu-item">
     <h2>Coca Cola</h2>
-    <p>Indulge in the classic effervescence of Coca Cola. The timeless, fizzy delight that has been satisfying cola enthusiasts for generations. Embrace the iconic taste that never goes out of style.</p>
+    <p>Indulge in the classic effervescence of Coca Cola. The timeless, fizzy delight that has been satisfying cola
+        enthusiasts for generations. Embrace the iconic taste that never goes out of style.</p>
     <p class="price">$5.99</p>
     <button class="orderButton" onclick="placeOrder('Coca Cola', 5.99)">Order $5.99</button>
     <div>
@@ -309,12 +310,11 @@
             quantity: quantityCounters[productName],
             roomNumber: roomNumber,
             totalAmount: parseFloat(total),
-            orderDescription: orderDescription // Include orderDescription
+            orderDescription: orderDescription
         };
 
         decreaseStock(productName);
 
-        // Make API call to place order
         fetch('http://localhost:8080/process-request/place-menu-order', {
             method: 'POST',
             headers: {
@@ -327,10 +327,8 @@
                 return response.json();
             })
             .then(data => {
-                alert(orderDescription); // Use orderDescription for alert
+                alert(orderDescription);
                 console.log(data.message);
-
-                // Save invoice information
                 saveInvoiceInfo(roomNumber, price, parseFloat(total), orderDescription);
             })
             .catch(error => {
@@ -345,7 +343,7 @@
             roomNumber: roomNumber,
             price: price,
             totalAmount: totalAmount,
-            orderDescription: orderDescription // Include orderDescription in the invoiceData
+            orderDescription: orderDescription
         };
 
         fetch('http://localhost:8080/process-request/save-invoice', {
@@ -357,7 +355,7 @@
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data.message); // Handle successful saving of invoice information
+                console.log(data.message);
             })
             .catch(error => {
                 console.error('Error saving invoice information:', error);
@@ -372,7 +370,7 @@
         };
 
         fetch('http://localhost:8080/api/stock/updateStock', {
-            method: 'POST', // Değişiklik: 'PATCH' yerine 'POST' kullanıyoruz
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -387,15 +385,12 @@
             .then(data => {
                 if (data.success) {
                     console.log("Stock decreased for " + productName);
-                    // İsteğe bağlı olarak UI'yi güncelleyebilir veya başka işlemler gerçekleştirebilirsiniz
                 } else {
                     console.error("Error decreasing stock: " + data.message);
-                    // Hata durumunda mesaj gösterme veya başka işlemler gerçekleştirme
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                // Hata durumunda mesaj gösterme veya başka işlemler gerçekleştirme
             });
     }
 

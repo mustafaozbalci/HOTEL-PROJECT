@@ -38,7 +38,7 @@
         }
 
         .refresh-btn {
-            background-color: #4CAF50; /* Button background color */
+            background-color: #4CAF50;
             color: white;
             display: block;
             margin: 20px auto;
@@ -50,11 +50,11 @@
         }
 
         .refresh-btn:hover {
-            background-color: #45a049; /* Button hover color */
+            background-color: #45a049;
         }
 
         .back-btn {
-            background-color: #4CAF50; /* Button background color */
+            background-color: #4CAF50;
             color: white;
             display: block;
             margin: 20px auto;
@@ -66,29 +66,27 @@
         }
 
         .back-btn:hover {
-            background-color: #45a049; /* Button hover color */
+            background-color: #45a049;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function () {
-            // Fonksiyon: Tabloyu güncelle
+            // Refresh Table Func
+
             function refreshTable() {
                 var apiUrl = "/invoice-status/getAll";
 
                 $.get(apiUrl, function (data) {
                     console.log(data);
-                    // Tabloyu güncelle
                     updateTable(data);
                 });
             }
 
-            // Fonksiyon: Verilere göre tabloyu güncelle
+            // Update Table Func
             function updateTable(invoices) {
                 var tbody = $("table tbody");
-                tbody.empty(); // Tabloyu temizle
-
-                // Her bir fatura için satır oluştur
+                tbody.empty();
                 invoices.forEach(function (invoice) {
                     var row = "<tr>" +
                         "<td>" + invoice.id + "</td>" +
@@ -101,10 +99,7 @@
                 });
             }
 
-            // Sayfa yüklendiğinde tabloyu ilk kez güncelle
             refreshTable();
-
-            // Refresh butonuna tıklandığında tabloyu güncelle
             $(".refresh-btn").on("click", function () {
                 refreshTable();
             });
@@ -136,10 +131,7 @@
     </tr>
     </tbody>
 </table>
-
-<!-- Refresh butonu -->
 <a href="#" class="refresh-btn">Refresh Table</a>
-<!-- Back to EmployeePage butonu -->
 <a href="EmployeePage.html" class="back-btn">Back to EmployeePage</a>
 
 

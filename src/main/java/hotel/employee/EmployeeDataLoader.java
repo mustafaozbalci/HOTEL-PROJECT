@@ -12,10 +12,9 @@ public class EmployeeDataLoader implements CommandLineRunner {
 
     public void run(String... args) throws Exception {
         if (employeeRepository.findByUsername("admin") == null) {
-            // Veritabanına default bir kayıt eklemek için
             Employee admin = new Employee();
             admin.setUsername("admin");
-            admin.setPassword("admin"); // Şifreyi düz metin olarak ekliyorum, güvenlik için daha fazla önlem alınmalıdır.
+            admin.setPassword("admin");
             admin.setRole("ADMIN");
 
             employeeRepository.save(admin);

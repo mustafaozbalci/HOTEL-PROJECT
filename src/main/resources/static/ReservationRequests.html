@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background-color: #f1f1f1; /* Background color */
+            background-color: #f1f1f1;
         }
 
         .center {
@@ -60,7 +60,7 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            text-decoration: none; /* Remove default underline */
+            text-decoration: none;
             margin-top: 10px;
         }
 
@@ -103,7 +103,7 @@
                 $('<th>').text('Entry Date'),
                 $('<th>').text('Exit Date'),
                 $('<th>').text('Customer TC'),
-                $('<th>').text('Actions') // New column for actions
+                $('<th>').text('Actions')
             );
             table.append(headerRow);
 
@@ -136,7 +136,7 @@
     function fetchCustomerList() {
         $.ajax({
             type: 'GET',
-            url: '/api/customer/waitingReservation', // Update with your endpoint
+            url: '/api/customer/waitingReservation',
             success: function (customers) {
                 displayCustomerList(customers);
             },
@@ -151,10 +151,10 @@
     });
 
     function updateRoomNumber(customerId) {
-        var newRoomNumber = prompt('Enter the new room number:'); // You can use a form or other UI for this
+        var newRoomNumber = prompt('Enter the new room number:');
 
         if (newRoomNumber === null) {
-            return; // User canceled the prompt
+            return;
         }
 
         if (!newRoomNumber) {
@@ -162,9 +162,9 @@
             return;
         }
 
-        // Assuming you have an endpoint for updating room numbers with the customer ID
+
         $.ajax({
-            type: 'PUT', // Change this to PUT
+            type: 'PUT',
             url: '/api/customer/updateRoomNumber/' + customerId,
             data: {newRoomNumber: newRoomNumber},
             success: function (response) {

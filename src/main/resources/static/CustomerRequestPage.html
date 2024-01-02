@@ -155,7 +155,6 @@
                 sendExtendedAccommodationRequest();
                 break;
             case 'foodAndDrinks':
-                // Yeni eklenen kısmı işle
                 redirectToMenu();
                 break;
             default:
@@ -165,8 +164,7 @@
 
     function sendNotificationToServer(requestData) {
         var xhr = new XMLHttpRequest();
-        var url = 'http://localhost:8080/simulate-notification'; // Update with your server endpoint for simulation
-
+        var url = 'http://localhost:8080/simulate-notification';
         xhr.open('POST', url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -188,7 +186,7 @@
         }
 
         var xhr = new XMLHttpRequest();
-        var url = 'http://localhost:8080/process-request/notifications'; // Update the URL with your server endpoint
+        var url = 'http://localhost:8080/process-request/notifications';
 
         xhr.open('POST', url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -198,7 +196,7 @@
         var requestData = {
             requestType: 'ExtraPerson',
             content: content,
-            roomNumber: sessionStorage.getItem('roomNumber') // roomNumber bilgisini al
+            roomNumber: sessionStorage.getItem('roomNumber')
         };
 
         xhr.onreadystatechange = function () {
@@ -226,11 +224,6 @@
 
         var spaDate = document.getElementById('spaDate').value;
         var spaTime = document.getElementById('spaTime').value;
-
-        // Eksik: Spa Request ile ilgili işlemleri burada gerçekleştirin
-        // Örneğin, bir AJAX isteği ile sunucuya spa talebini iletebilirsiniz.
-
-        // AJAX isteği örneği:
         var xhr = new XMLHttpRequest();
         var url = 'http://localhost:8080/process-request/spa-requests';
 
@@ -271,7 +264,7 @@
         var requestData = {
             requestType: 'ExtendingAccommodation',
             content: content,
-            roomNumber: sessionStorage.getItem('roomNumber') // roomNumber bilgisini al
+            roomNumber: sessionStorage.getItem('roomNumber')
         };
 
         xhr.onreadystatechange = function () {
@@ -279,10 +272,7 @@
                 alert('Extending Accommodation Request sent successfully!');
             }
         };
-
         xhr.send(JSON.stringify(requestData));
-
-        // Simulate server-side behavior locally
         sendNotificationToServer(requestData);
     }
 

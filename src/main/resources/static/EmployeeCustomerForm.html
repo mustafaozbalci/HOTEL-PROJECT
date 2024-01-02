@@ -10,8 +10,8 @@
             padding: 0;
             font-family: Arial, sans-serif;
             overflow: hidden;
-            background-color: #141414; /* Arka plan rengi */
-            color: #fbfbfb; /* Metin rengi */
+            background-color: #141414;
+            color: #fbfbfb;
         }
 
         .center {
@@ -106,9 +106,7 @@
 </div>
 <script>
     function submitForm(event) {
-        event.preventDefault(); // Formun normal gönderimini engelle
-
-        // Müşteri bilgilerini JSON formatında oluştur
+        event.preventDefault(); // Prevent Empty Form
         var customerData = {
             customerName: document.getElementById('customerName').value,
             customerSurname: document.getElementById('customerSurname').value,
@@ -121,35 +119,29 @@
             phoneNumber: document.getElementById('phoneNumber').value,
             roomNumber: document.getElementById('roomNumber').value
         };
-
-        // AJAX isteği gönder
         $.ajax({
             type: 'POST',
             url: '/api/employee/customer',
-            contentType: 'application/json', // JSON içeriğini belirt
+            contentType: 'application/json',
             data: JSON.stringify(customerData),
             success: function (response) {
                 console.log('Customer created successfully:', response);
-                // İhtiyaç duyulursa ek işlemler gerçekleştirilebilir
-
-                // Başarı mesajını göster ve sayfayı yenile
                 showSuccessAlert();
                 resetForm();
             },
             error: function (xhr, status, error) {
                 console.error('Error creating customer:', error);
-                // Hata durumunu uygun şekilde ele al
             }
         });
     }
 
-    // Başarı mesajını gösteren fonksiyon
+    // Show Success Message
     function showSuccessAlert() {
         console.log('Müşteri başarıyla oluşturuldu!');
         alert('Müşteri başarıyla oluşturuldu!');
     }
 
-    // Formu sıfırlayan fonksiyon
+    // Reset Form Func
     function resetForm() {
         document.getElementById('employeeCustomerForm').reset();
     }

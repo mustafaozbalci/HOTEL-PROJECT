@@ -12,8 +12,8 @@
             padding: 0;
             font-family: Arial, sans-serif;
             overflow: hidden;
-            background-color: #141414; /* Background color */
-            color: #fbfbfb; /* Text color */
+            background-color: #141414;
+            color: #fbfbfb;
         }
 
         .center {
@@ -28,7 +28,6 @@
         }
 
         .customer-list-container {
-            /* ... (existing styles) ... */
             overflow-x: auto;
         }
 
@@ -36,17 +35,17 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
-            white-space: nowrap; /* Prevent text wrapping in cells */
+            white-space: nowrap;
         }
 
         .customer-table th,
         .customer-table td {
             border: 1px solid #ddd;
-            padding: 8px; /* Decreased padding for a more compact look */
+            padding: 8px;
             text-align: left;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 14px; /* Adjust the font size as needed */
+            font-size: 14px;
         }
 
         .customer-table th {
@@ -86,7 +85,6 @@
         <h2>Current Customers</h2>
         <div id="customerList"></div>
 
-        <!-- Geri butonu -->
         <button class="back-button" onclick="goToEmployeePage()">
             <i class="back-icon fas fa-arrow-left"></i> Back To EmployeePage
         </button>
@@ -94,15 +92,14 @@
 </div>
 <script>
     $(document).ready(function () {
-        // Sayfa yüklendiğinde mevcut müşterileri getir ve listele
         fetchCustomerList();
     });
 
-    // Mevcut müşterileri getir
+    // Bring Customers
     function fetchCustomerList() {
         $.ajax({
             type: 'GET',
-            url: '/api/customer/all', // Bu endpoint'i oluşturmalısın
+            url: '/api/customer/all',
             success: function (customers) {
                 displayCustomerList(customers);
             },
@@ -112,7 +109,7 @@
         });
     }
 
-    // Müşteri listesini görüntüle
+    // Show Customer List
     function displayCustomerList(customers) {
         var customerListContainer = $('#customerList');
         customerListContainer.empty(); // Clear previous content
@@ -158,8 +155,6 @@
     }
 
     function goToEmployeePage() {
-        // Burada istediğiniz sayfaya geri dönüş işlemini gerçekleştirebilirsiniz.
-        // Örneğin, EmployeePage.html dosyasına yönlendirme:
         window.location.href = 'EmployeePage.html';
     }
 </script>

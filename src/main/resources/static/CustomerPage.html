@@ -78,21 +78,21 @@
             width: 300px;
             background-color: #fff;
             border: 1px solid #ddd;
-            padding: 20px; /* Yazı boyutunu büyüttük */
+            padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
-            text-align: center; /* Metni ortaladık */
+            text-align: center;
         }
 
         #invoiceBox h3 {
             color: #4CAF50;
-            font-size: 1.5em; /* H3 başlığı için yazı boyutunu büyüttük */
+            font-size: 1.5em;
         }
 
         #invoiceBox p {
             margin: 0;
-            font-size: 1.2em; /* Paragraf için yazı boyutunu büyüttük */
+            font-size: 1.2em;
         }
     </style>
 </head>
@@ -181,19 +181,15 @@
         sessionStorage.setItem('customerSurname', urlParams.get('customerSurname'));
 
         // Parse roomNumber as an integer and then save to sessionStorage
-        var roomNumber = parseInt(urlParams.get('roomNumber'), 10) || 0; // Default to 0 if not a valid number
+        var roomNumber = parseInt(urlParams.get('roomNumber'), 10) || 0;
         sessionStorage.setItem('roomNumber', roomNumber);
-        // ... (diğer bilgileri kaydetme işlemleri)
     }
     document.querySelector('nav a[href="PendingNotifications.html"]').addEventListener('click', function () {
         window.location.href = 'PendingNotifications.html';
     });
 
     function updateInvoiceContent() {
-        // Session Storage'dan oda numarasını al
         var roomNumber = sessionStorage.getItem('roomNumber');
-
-        // Oda numarasını kullanarak belirli bir fatura bilgisini API'den al
         var apiUrl = "/invoice-status/getByRoomNumber/" + roomNumber;
 
         fetch(apiUrl)
@@ -204,15 +200,9 @@
                 return response.json();
             })
             .then(invoice => {
-                var totalAmount = invoice.totalAmount; // Fatura nesnesindeki totalAmount özelliğini al
-
-                // Fatura kutusundaki elementleri güncelle
+                var totalAmount = invoice.totalAmount;
                 var totalAmountElement = document.getElementById('totalAmount');
-
-                // "Total Amount" yazısı eklendi
                 totalAmountElement.innerText = totalAmount + " $";
-
-                // Ek olarak, diğer fatura bilgilerini istediğiniz şekilde güncelleyebilirsiniz
                 var orderDescriptionElement = document.getElementById('orderDescription');
                 orderDescriptionElement.innerText = "Order Description: " + invoice.orderDescription;
 
@@ -224,7 +214,7 @@
             });
     }
 
-    // Sayfa yüklendiğinde fatura içeriğini güncelle
+    // Refresh Invoice Content
     document.addEventListener("DOMContentLoaded", function () {
         updateInvoiceContent();
     });

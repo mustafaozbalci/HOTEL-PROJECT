@@ -35,7 +35,6 @@ public class InvoiceController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Invoice>> getAllInvoices() {
-        // Get all invoices
         List<Invoice> invoices = invoiceRepository.findAll();
         return new ResponseEntity<>(invoices, HttpStatus.OK);
     }
