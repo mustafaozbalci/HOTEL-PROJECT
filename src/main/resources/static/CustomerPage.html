@@ -136,7 +136,7 @@
 </main>
 <script>
     // Check if customer details are already in sessionStorage
-    var customerName = sessionStorage.getItem('customerName').toUpperCase();
+    var customerName = sessionStorage.getItem('customerName');
 
     // If not, get customer details from URL
     if (!customerName) {
@@ -144,8 +144,8 @@
         customerName = urlParams.get('customerName');
 
         // Save customer details to sessionStorage
-        sessionStorage.setItem('customerName', customerName.toUpperCase());
-        sessionStorage.setItem('customerSurname', urlParams.get('customerSurname').toUpperCase());
+        sessionStorage.setItem('customerName', customerName);
+        sessionStorage.setItem('customerSurname', urlParams.get('customerSurname'));
         sessionStorage.setItem('roomNumber', urlParams.get('roomNumber'));
         sessionStorage.setItem('birthDate', urlParams.get('birthDate'));
         sessionStorage.setItem('sex', urlParams.get('sex'));
@@ -165,7 +165,7 @@
         document.getElementById('customerSurname').innerText = sessionStorage.getItem('customerSurname');
         var roomNumber = sessionStorage.getItem('roomNumber');
         if (roomNumber == 0) {
-            document.getElementById('roomNumber').innerText = 'WAITING';
+            document.getElementById('roomNumber').innerText = 'waiting';
         } else {
             document.getElementById('roomNumber').innerText = roomNumber;
         }
@@ -181,6 +181,7 @@
     document.querySelector('nav a[href="PendingNotifications.html"]').addEventListener('click', function () {
         window.location.href = 'PendingNotifications.html';
     });
+
 
 
     function updateInvoiceContent() {
