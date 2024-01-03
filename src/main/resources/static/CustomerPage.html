@@ -136,7 +136,7 @@
 </main>
 <script>
     // Check if customer details are already in sessionStorage
-    var customerName = sessionStorage.getItem('customerName');
+    var customerName = sessionStorage.getItem('customerName').toUpperCase();
 
     // If not, get customer details from URL
     if (!customerName) {
@@ -144,8 +144,8 @@
         customerName = urlParams.get('customerName');
 
         // Save customer details to sessionStorage
-        sessionStorage.setItem('customerName', customerName);
-        sessionStorage.setItem('customerSurname', urlParams.get('customerSurname'));
+        sessionStorage.setItem('customerName', customerName.toUpperCase());
+        sessionStorage.setItem('customerSurname', urlParams.get('customerSurname').toUpperCase());
         sessionStorage.setItem('roomNumber', urlParams.get('roomNumber'));
         sessionStorage.setItem('birthDate', urlParams.get('birthDate'));
         sessionStorage.setItem('sex', urlParams.get('sex'));
@@ -163,7 +163,12 @@
         // Update customer details
         document.getElementById('customerName').innerText = sessionStorage.getItem('customerName');
         document.getElementById('customerSurname').innerText = sessionStorage.getItem('customerSurname');
-        document.getElementById('roomNumber').innerText = sessionStorage.getItem('roomNumber');
+        var roomNumber = sessionStorage.getItem('roomNumber');
+        if (roomNumber == 0) {
+            document.getElementById('roomNumber').innerText = 'WAITING';
+        } else {
+            document.getElementById('roomNumber').innerText = roomNumber;
+        }
         document.getElementById('birthDate').innerText = sessionStorage.getItem('birthDate');
         document.getElementById('sex').innerText = sessionStorage.getItem('sex');
         document.getElementById('entryDate').innerText = sessionStorage.getItem('entryDate');
@@ -172,21 +177,11 @@
         document.getElementById('email').innerText = sessionStorage.getItem('email');
         document.getElementById('phoneNumber').innerText = sessionStorage.getItem('phoneNumber');
     }
-    if (!customerName) {
-        var urlParams = new URLSearchParams(window.location.search);
-        customerName = urlParams.get('customerName');
 
-        // Save customer details to sessionStorage
-        sessionStorage.setItem('customerName', customerName);
-        sessionStorage.setItem('customerSurname', urlParams.get('customerSurname'));
-
-        // Parse roomNumber as an integer and then save to sessionStorage
-        var roomNumber = parseInt(urlParams.get('roomNumber'), 10) || 0;
-        sessionStorage.setItem('roomNumber', roomNumber);
-    }
     document.querySelector('nav a[href="PendingNotifications.html"]').addEventListener('click', function () {
         window.location.href = 'PendingNotifications.html';
     });
+
 
     function updateInvoiceContent() {
         var roomNumber = sessionStorage.getItem('roomNumber');

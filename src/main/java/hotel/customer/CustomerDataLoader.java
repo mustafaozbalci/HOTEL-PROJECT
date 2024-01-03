@@ -21,7 +21,7 @@ public class CustomerDataLoader implements CommandLineRunner {
             customer.setCustomerName("Mahmut");
             customer.setCustomerSurname("Tuncer");
             customer.setRoomNumber("101");
-            customer.setBirthDate(dateFormat.parse("1971-01-16"));
+            customer.setBirthDate(dateFormat.parse("1971-01-01"));
             customer.setSex("Male");
             customer.setEntryDate(dateFormat.parse("2024-01-02"));
             customer.setExitDate(dateFormat.parse("2024-01-09"));
@@ -33,7 +33,7 @@ public class CustomerDataLoader implements CommandLineRunner {
             customer2.setCustomerName("Murat");
             customer2.setCustomerSurname("Orhun");
             customer2.setRoomNumber("202");
-            customer2.setBirthDate(dateFormat.parse("1985-03-20"));
+            customer2.setBirthDate(dateFormat.parse("1983-03-23"));
             customer2.setSex("Male");
             customer2.setEntryDate(dateFormat.parse("2024-01-02"));
             customer2.setExitDate(dateFormat.parse("2024-01-09"));
@@ -45,7 +45,7 @@ public class CustomerDataLoader implements CommandLineRunner {
             customer3.setCustomerName("Hadise");
             customer3.setCustomerSurname("Açıkgoz");
             customer3.setRoomNumber("303");
-            customer3.setBirthDate(dateFormat.parse("1985-10-22"));
+            customer3.setBirthDate(dateFormat.parse("1985-12-22"));
             customer3.setSex("Female");
             customer3.setEntryDate(dateFormat.parse("2024-01-02"));
             customer3.setExitDate(dateFormat.parse("2024-01-09"));
