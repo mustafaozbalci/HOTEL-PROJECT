@@ -17,6 +17,8 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private RejectedCustomerRepository rejectedCustomerRepository;
 
     @GetMapping("/all")
     public ResponseEntity<List<Customer>> getAllCustomers() {
@@ -33,7 +35,6 @@ public class CustomerController {
     public ResponseEntity<List<Customer>> waitingCustomers() {
         List<Customer> customers = customerService.getAllCustomers();
 
-        // roomNumber değeri 0'a eşit olan müşterileri filtrele
         List<Customer> filteredCustomers = customers.stream()
                 .filter(customer -> customer.getRoomNumber() == 0)
                 .collect(Collectors.toList());
@@ -44,7 +45,6 @@ public class CustomerController {
             return ResponseEntity.noContent().build();
         }
     }
-
 
     @GetMapping("/{customerId}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long customerId) {
@@ -80,10 +80,8 @@ public class CustomerController {
         Customer customer = customerService.getCustomerByTC(customerTC);
 
         if (customer != null) {
-            // TC Kimlik No var ise müşteri bilgilerini dönebilirsiniz.
             return ResponseEntity.ok(customer);
         } else {
-            // TC Kimlik No yok ise hata mesajını dönebilirsiniz.
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Müşteri bulunamadı. TC Kimlik No kontrol ediniz.");
         }
     }
@@ -103,6 +101,29 @@ public class CustomerController {
         }
     }
 
+    @DeleteMapping("/deleteCustomer/{customerId}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable Long customerId) {
+        try {
+
+            customerService.rejectCustomer(customerId);
+            return new ResponseEntity<>("Customer deleted successfully", HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/rejected")
+    public ResponseEntity<List<RejectedCustomer>> getRejectedCustomers() {
+        List<RejectedCustomer> rejectedCustomers = rejectedCustomerRepository.findAll();
+
+        if (!rejectedCustomers.isEmpty()) {
+            return ResponseEntity.ok(rejectedCustomers);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
 
 }
-

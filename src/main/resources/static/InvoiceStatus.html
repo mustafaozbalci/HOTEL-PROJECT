@@ -68,6 +68,22 @@
         .back-btn:hover {
             background-color: #45a049;
         }
+
+        .close-btn {
+            background-color: #4CAF50;
+            color: white;
+            display: block;
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 8px;
+            width: 70%;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .close-btn:hover {
+            background-color: #d32f2f;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
@@ -82,8 +98,6 @@
                     updateTable(data);
                 });
             }
-
-            // Update Table Func
             function updateTable(invoices) {
                 var tbody = $("table tbody");
                 tbody.empty();
@@ -91,9 +105,9 @@
                     var row = "<tr>" +
                         "<td>" + invoice.id + "</td>" +
                         "<td>" + invoice.roomNumber + "</td>" +
-                        "<td>" + invoice.price + "</td>" +
                         "<td>" + invoice.totalAmount + "</td>" +
                         "<td>" + invoice.orderDescription + "</td>" +
+                        "<td><button class='close-btn' onclick='closeInvoice(" + invoice.id + ")'>Close</button></td>" +
                         "</tr>";
                     tbody.append(row);
                 });
@@ -104,6 +118,14 @@
                 refreshTable();
             });
         });
+
+        function closeInvoice(invoiceId) {
+            var apiUrl = "/invoice-status/close/" + invoiceId;
+
+            $.post(apiUrl, function () {
+                refreshTable();
+            });
+        }
     </script>
 </head>
 
@@ -115,19 +137,18 @@
     <tr>
         <th>Invoice ID</th>
         <th>Room Number</th>
-        <th>Price</th>
         <th>Total Amount</th>
         <th>Order Description</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
-    <!-- Thymeleaf kullanımı düzeltilmiş hali -->
     <tr th:each="invoice : ${invoices}">
         <td th:text="${invoice.id}"></td>
         <td th:text="${invoice.roomNumber}"></td>
-        <td th:text="${invoice.price}"></td>
         <td th:text="${invoice.totalAmount}"></td>
         <td th:text="${invoice.orderDescription}"></td>
+        <td><button class="close-btn" onclick="closeInvoice(${invoice.id})">Close</button></td>
     </tr>
     </tbody>
 </table>

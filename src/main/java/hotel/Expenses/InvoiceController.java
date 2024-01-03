@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -20,15 +21,11 @@ public class InvoiceController {
 
     @GetMapping("/getByRoomNumber/{roomNumber}")
     public ResponseEntity<Invoice> getInvoiceByRoomNumber(@PathVariable int roomNumber) {
-        // Find invoice by room number
         Optional<Invoice> optionalInvoice = invoiceRepository.findByRoomNumber(roomNumber);
-
-        // Check if the invoice exists
         if (optionalInvoice.isPresent()) {
             Invoice invoice = optionalInvoice.get();
             return new ResponseEntity<>(invoice, HttpStatus.OK);
         } else {
-            // Invoice not found for the given room number
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -39,4 +36,18 @@ public class InvoiceController {
         return new ResponseEntity<>(invoices, HttpStatus.OK);
     }
 
+    @PostMapping("/close/{id}")
+    public ResponseEntity<String> closeInvoice(@PathVariable int id) {
+        Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);
+        if (optionalInvoice.isPresent()) {
+            Invoice invoice = optionalInvoice.get();
+            invoice.setOrderDescription("");
+            invoice.setTotalAmount(0);
+            invoiceRepository.save(invoice);
+
+            return new ResponseEntity<>("Invoice with ID " + id + " is closed.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Invoice with ID " + id + " not found.", HttpStatus.NOT_FOUND);
+        }
+    }
 }

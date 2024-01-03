@@ -152,6 +152,7 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
     private Long processMenuOrder(CustomerRequest request) {
         try {
             // Simulate request processing and save to the database

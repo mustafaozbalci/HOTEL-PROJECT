@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -52,7 +54,7 @@
         }
 
         .back-button {
-            background-color: #333;
+            background-color: #4CAF50;
             color: #fff;
             padding: 10px 15px;
             border: none;
@@ -71,6 +73,7 @@
         .back-icon {
             margin-right: 10px;
         }
+
     </style>
     <title>Customer Information</title>
 </head>
@@ -84,9 +87,36 @@
     <a class="back-button" href="EmployeePage.html">
         <i class="back-icon fas fa-arrow-left"></i> Back To EmployeePage
     </a>
+    <button id="historyButton" class="back-button">
+        History
+    </button>
+</div>
+
+<div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="historyModalLabel">Rejected Customers History</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="customer-table" id="historyTable">
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
+    $('#historyButton').click(function () {
+        fetchRejectedCustomers();
+        $('#historyModal').modal('show');
+    });
     function displayCustomerList(customers) {
         var customerListContainer = $('#customerListTable');
         customerListContainer.empty();
@@ -121,6 +151,9 @@
                     $('<td>').append(
                         $('<button>').text('Update Room Number').click(function () {
                             updateRoomNumber(customer.customerId);
+                        }),
+                        $('<button>').text('Reject').click(function () {
+                            rejectCustomer(customer.customerId);
                         })
                     )
                 );
@@ -162,7 +195,6 @@
             return;
         }
 
-
         $.ajax({
             type: 'PUT',
             url: '/api/customer/updateRoomNumber/' + customerId,
@@ -175,6 +207,62 @@
             }
         });
     }
+
+    function rejectCustomer(customerId) {
+        if (confirm('Are you sure you want to reject this customer?')) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/customer/deleteCustomer/' + customerId,
+                success: function (response) {
+                    fetchCustomerList();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error rejecting customer:', error);
+                }
+            });
+        }
+    }
+
+    function displayRejectedCustomers(rejectedCustomers) {
+        var historyTable = $('#historyTable');
+        historyTable.empty();
+
+        if (rejectedCustomers.length > 0) {
+            var headerRow = $('<tr>').append(
+                $('<th>').text('Name'),
+                $('<th>').text('Surname'),
+                $('<th>').text('Customer TC'),
+                $('<th>').text('Rejection Date')
+            );
+            historyTable.append(headerRow);
+
+            rejectedCustomers.forEach(function (customer) {
+                var customerRow = $('<tr>').append(
+                    $('<td>').text(customer.customerName),
+                    $('<td>').text(customer.customerSurname),
+                    $('<td>').text(customer.customerTC),
+                    $('<td>').text(customer.rejectionDate)
+                );
+                historyTable.append(customerRow);
+            });
+        } else {
+            historyTable.text('No rejected customers found.');
+        }
+    }
+
+    function fetchRejectedCustomers() {
+        $.ajax({
+            type: 'GET',
+            url: '/api/customer/rejected',
+            success: function (rejectedCustomers) {
+                displayRejectedCustomers(rejectedCustomers);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching rejected customers:', error);
+            }
+        });
+    }
+
 </script>
 </body>
 

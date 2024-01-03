@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,13 +18,12 @@ public class CustomerService {
 
     @Autowired
     private ReservationService reservationService;
+    @Autowired
+    private RejectedCustomerRepository rejectedCustomerRepository;
 
     @Transactional
     public Customer saveCustomerWithReservation(Customer customer) {
-        // Müşteriyi kaydet ve customerId'yi elde et
         Customer savedCustomer = customerRepository.save(customer);
-
-        // Rezervasyonu kaydet ve müşteri ile ilişkilendir
         Reservation reservation = new Reservation();
         reservation.setCustomer(savedCustomer);
         reservation.setRoomNumber(customer.getRoomNumber());
@@ -64,5 +64,23 @@ public class CustomerService {
             throw new RuntimeException("Customer not found with id: " + customerId);
         }
     }
+
+    public void rejectCustomer(Long customerId) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            RejectedCustomer rejectedCustomer = new RejectedCustomer();
+            rejectedCustomer.setCustomerName(customer.getCustomerName());
+            rejectedCustomer.setCustomerSurname(customer.getCustomerSurname());
+            rejectedCustomer.setCustomerTC(customer.getCustomerTC());
+            rejectedCustomer.setRejectionDate(new Date());
+            rejectedCustomerRepository.save(rejectedCustomer);
+            customerRepository.delete(customer);
+        } else {
+            throw new RuntimeException("Customer not found with id: " + customerId);
+        }
+    }
+
 
 }
