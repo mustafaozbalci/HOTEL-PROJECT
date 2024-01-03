@@ -303,6 +303,10 @@
     function placeOrder(productName, price) {
         var total = (quantityCounters[productName] * price).toFixed(2);
         var roomNumber = sessionStorage.getItem('roomNumber');
+        if (roomNumber === '0' || roomNumber === null) {
+            alert("Odanız henüz atanmamıştır. Lütfen oda numaranızı belirtiniz.");
+            return; // İşlemi durdur
+        }
         var orderDescription = "Order placed: " + productName + " - Quantity: " + quantityCounters[productName] + " - Total Price: $" + total;
 
         var requestData = {
