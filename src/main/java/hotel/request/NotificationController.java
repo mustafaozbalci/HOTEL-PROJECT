@@ -96,7 +96,7 @@ public class NotificationController {
                 Notification notification = optionalNotification.get();
 
                 if ("confirm".equals(action)) {
-                    notification.setStatus("PASSIVE");
+                    notification.setStatus("ACCEPTED");
                     notificationRepository.save(notification);
                     return new ResponseEntity<>("Notification deactivated successfully", HttpStatus.OK);
                 } else if ("reject".equals(action)) {
@@ -124,18 +124,19 @@ public class NotificationController {
     }
 
     @GetMapping("/active-notifications")
-    public ResponseEntity<List<Notification>> getActiveAndRejectedNotificationsByRoomNumber(@RequestParam int roomNumber) {
-        List<Notification> activeAndRejectedNotifications =
-                notificationRepository.findByStatusInAndRoomNumber(List.of("ACTIVE", "REJECTED"), roomNumber);
-        return new ResponseEntity<>(activeAndRejectedNotifications, HttpStatus.OK);
+    public ResponseEntity<List<Notification>> getActiveNotificationsByRoomNumber(@RequestParam int roomNumber) {
+        List<Notification> activeNotifications =
+                notificationRepository.findByStatusAndRoomNumber("ACTIVE", roomNumber);
+        return new ResponseEntity<>(activeNotifications, HttpStatus.OK);
     }
 
     @GetMapping("/passive-notifications")
     public ResponseEntity<List<Notification>> getPassiveNotificationsByRoomNumber(@RequestParam int roomNumber) {
-        List<Notification> activeAndRejectedNotifications =
-                notificationRepository.findByStatusAndRoomNumber("PASSIVE", roomNumber);
-        return new ResponseEntity<>(activeAndRejectedNotifications, HttpStatus.OK);
+        List<Notification> passiveNotifications =
+                notificationRepository.findByStatusInAndRoomNumber(List.of("REJECTED", "ACCEPTED"), roomNumber);
+        return new ResponseEntity<>(passiveNotifications, HttpStatus.OK);
     }
+
 
 
     @PostMapping("/place-menu-order")
