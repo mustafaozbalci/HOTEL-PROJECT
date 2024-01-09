@@ -199,17 +199,11 @@
                 var totalAmount = invoice.totalAmount;
                 var totalAmountElement = document.getElementById('totalAmount');
                 totalAmountElement.innerText = totalAmount + " $";
-                var orderDescriptionElement = document.getElementById('orderDescription');
-                orderDescriptionElement.innerText = "Order Description: " + invoice.orderDescription;
-
-                var priceElement = document.getElementById('price');
-                priceElement.innerText = "Price: " + invoice.price;
             })
             .catch(error => {
                 console.error("Error fetching invoice data:", error);
             });
     }
-
     // Refresh Invoice Content
     document.addEventListener("DOMContentLoaded", function () {
         updateInvoiceContent();
