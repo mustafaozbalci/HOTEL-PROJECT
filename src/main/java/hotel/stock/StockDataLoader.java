@@ -25,7 +25,7 @@ public class StockDataLoader implements CommandLineRunner {
                     "Breakfast Burger", "Fruit Smoothie", "Caesar Salad", "Margarita Pizza",
                     "Vegetarian Wrap", "Chocolate Brownie Sundae", "Chicken Alfredo", "Green Detox Smoothie");
 
-            // Stokta her üründen 500 adet ekleyin
+            // ADD 500 STOCK FOR EVERY ITEM IN THE LIST
             for (String stockItem : stockItems) {
                 Stock existingStock = stockRepository.findByProductName(stockItem);
 

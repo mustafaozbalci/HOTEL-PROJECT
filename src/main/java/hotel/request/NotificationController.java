@@ -25,11 +25,13 @@ public class NotificationController {
     @Autowired
     private SpaRepository spaRepository;
 
+    //TO SAVE VARY NOTIFICATIONS
     @PostMapping("/notifications")
     public ResponseEntity<String> processNotificationRequest(@RequestBody CustomerRequest request) {
         return processRequest(request, "Notification processed successfully");
     }
 
+    //TO SAVE SPA REQUESTS
     @PostMapping("/spa-requests")
     public ResponseEntity<String> processSpaRequest(@RequestBody CustomerRequest request) {
         try {
@@ -58,6 +60,7 @@ public class NotificationController {
         }
     }
 
+    //TO SAVE EXTEND ACCOMMODATION REQUEST
     @PostMapping("/extend-accommodation-requests")
     public ResponseEntity<String> processExtendAccommodationRequest(@RequestBody CustomerRequest request) {
         return processRequest(request, "Extend Accommodation Request processed successfully");
@@ -77,13 +80,14 @@ public class NotificationController {
         return new ResponseEntity<>(successMessage, HttpStatus.OK);
     }
 
-
+    //TO FIND THE STATUS : "ACTIVE" NOTIFICATIONS
     @GetMapping
     public ResponseEntity<List<Notification>> getActiveNotifications() {
         List<Notification> activeNotifications = notificationRepository.findByStatus("ACTIVE");
         return new ResponseEntity<>(activeNotifications, HttpStatus.OK);
     }
 
+    //TO CHANE THE STATUS OF THE NOTIFICATION TO ACCEPTED IF CONFIRMED,REJECTED IF REJECT
     @PostMapping("/deactivate-notification")
     public ResponseEntity<String> deactivateNotification(@RequestBody DeactivateRequest request) {
         Integer notificationId = Integer.parseInt(request.getNotificationId());
@@ -116,13 +120,14 @@ public class NotificationController {
         }
     }
 
-
+    //TO LIST THE PASSIVE AND REJECTED NOTIFICATIONS
     @GetMapping("/notification-history")
     public ResponseEntity<List<Notification>> getNotificationHistory() {
         List<Notification> historyNotifications = notificationRepository.findByStatusIn(List.of("PASSIVE", "REJECTED"));
         return new ResponseEntity<>(historyNotifications, HttpStatus.OK);
     }
 
+    //TO LIST THE ACTIVE NOTIFICATIONS
     @GetMapping("/active-notifications")
     public ResponseEntity<List<Notification>> getActiveNotificationsByRoomNumber(@RequestParam int roomNumber) {
         List<Notification> activeNotifications =
@@ -130,6 +135,7 @@ public class NotificationController {
         return new ResponseEntity<>(activeNotifications, HttpStatus.OK);
     }
 
+    //TO LIST THE REJECTED OR ACCEPTED NOTIFICATIONS BY ROOM NUMBER FILTER
     @GetMapping("/passive-notifications")
     public ResponseEntity<List<Notification>> getPassiveNotificationsByRoomNumber(@RequestParam int roomNumber) {
         List<Notification> passiveNotifications =
@@ -138,7 +144,7 @@ public class NotificationController {
     }
 
 
-
+    //TO GET THE REQUEST AND PROCESS MENU ORDER
     @PostMapping("/place-menu-order")
     public ResponseEntity<Map<String, String>> placeMenuOrder(@RequestBody CustomerRequest request) {
         Long invoiceId = processMenuOrder(request);
@@ -154,6 +160,7 @@ public class NotificationController {
         }
     }
 
+    //TO SAVE THE MENU ORDER AS A NOTIFICATION
     private Long processMenuOrder(CustomerRequest request) {
         try {
             // Simulate request processing and save to the database
@@ -170,6 +177,7 @@ public class NotificationController {
         return null;
     }
 
+    //TO CALCULATE THE ORDER PRICES AND SAVE IT WITH ROOM NUMBER
     @PostMapping("/save-invoice")
     public ResponseEntity<Map<String, String>> saveInvoice(@RequestBody InvoiceRequest invoiceRequest) {
         try {

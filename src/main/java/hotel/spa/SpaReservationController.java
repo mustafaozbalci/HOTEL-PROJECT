@@ -14,7 +14,7 @@ public class SpaReservationController {
     @Autowired
     private SpaRepository spaRepository;
 
-
+    // TO LIST ALL THE SPA REQUESTS
     @GetMapping
     public List<SpaReservation> getAllSpaReservations() {
         return spaRepository.findAll();

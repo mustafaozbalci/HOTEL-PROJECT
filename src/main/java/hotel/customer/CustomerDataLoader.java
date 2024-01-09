@@ -12,6 +12,7 @@ public class CustomerDataLoader implements CommandLineRunner {
     CustomerRepository customerRepository;
 
 
+    //ADD DEFAULT CUSTOMERS
     public void run(String... args) throws Exception {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         if (customerRepository.count() > 0) {

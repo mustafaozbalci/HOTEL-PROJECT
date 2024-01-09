@@ -15,7 +15,7 @@ public class StockController {
 
     @Autowired
     private final StockRepository stockRepository;
-
+    //TO UPDATE CURRENT STOCK
     @PostMapping("/updateStock")
     public ResponseEntity<String> updateStock(@RequestBody StockUpdateRequest request) {
         Stock stock = stockRepository.findByProductName(request.getProductName());
@@ -34,13 +34,13 @@ public class StockController {
             throw new RuntimeException("Product not found.");
         }
     }
-
+    //TO LIST CURRENT STOCKS
     @GetMapping("/allStock")
     public ResponseEntity<List<Stock>> getAllStock() {
         List<Stock> allStock = stockRepository.findAll();
         return ResponseEntity.ok(allStock);
     }
-
+    //TO ADD STOCK
     @PostMapping("/addStock")
     public ResponseEntity<String> addStock(@RequestParam String productName, @RequestParam String productType, @RequestParam int currentStock) {
         Stock existingStock = stockRepository.findByProductName(productName);

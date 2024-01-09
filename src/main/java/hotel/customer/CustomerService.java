@@ -34,16 +34,6 @@ public class CustomerService {
         return savedCustomer;
     }
 
-    public Optional<Customer> getCustomerById(Long customerId) {
-        return customerRepository.findById(customerId);
-    }
-
-    public List<Reservation> getReservationsByCustomerId(Long customerId) {
-        Optional<Customer> customerOptional = customerRepository.findById(customerId);
-
-        return customerOptional.map(Customer::getReservations).orElse(List.of());
-    }
-
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }

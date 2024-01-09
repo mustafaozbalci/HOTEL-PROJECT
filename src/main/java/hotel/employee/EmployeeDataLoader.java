@@ -10,6 +10,8 @@ public class EmployeeDataLoader implements CommandLineRunner {
     EmployeeRepository employeeRepository;
 
 
+    //TO ADD AN EMPLOYEE AS DEFAULT SUCH USERNAME : admin , PASSWORD : admin
+
     public void run(String... args) throws Exception {
         if (employeeRepository.findByUsername("admin") == null) {
             Employee admin = new Employee();

@@ -12,12 +12,12 @@ public class RoomController {
 
     @Autowired
     private RoomRepository roomRepository;
-
+    // TO LIST ALL THE ROOMS
     @GetMapping
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
-
+    //TO UPDATE THE ROOM PRCIE IF NECCESARY
     @PutMapping("/updatePrice")
     public ResponseEntity<String> updateRoomPrice(
             @RequestParam Long roomId,

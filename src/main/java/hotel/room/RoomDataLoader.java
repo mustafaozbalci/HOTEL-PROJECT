@@ -11,7 +11,7 @@ public class RoomDataLoader implements CommandLineRunner {
     @Autowired
     private RoomRepository roomRepository;
 
-
+    //TO ADD DEFAULT ROOMS
     public void run(String... args) throws Exception {
         // Check if rooms already exist in the database
         if (roomRepository.count() > 0) {
